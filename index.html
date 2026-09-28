@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5f2eb" />
+  <title>万缕千丝 · 转职模拟</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="grain"></div>
+  <header class="topbar">
+    <a class="brand" href="#simulation" aria-label="万缕千丝首页"><span>万缕千丝</span></a>
+    <nav class="main-nav" aria-label="主菜单"><button class="nav-item active" data-page="simulation">转职模拟</button><button class="nav-item" data-page="skills">习得特技</button></nav>
+    <span class="top-spacer" aria-hidden="true"></span>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <div class="search-wrap"><span class="search-icon">⌕</span><input id="searchInput" type="search" placeholder="按名称搜索…" autocomplete="off"></div>
+      <div class="roster-label"><span>可用角色</span><span id="shownCount">—</span></div>
+      <div class="character-list" id="characterList" role="listbox" aria-label="选择角色"><div class="character-list-items"></div></div>
+    </aside>
+
+    <section class="workspace" id="simulationPage">
+      <section class="detail-card growth-card full-growth-card">
+        <div class="detail-title"><div><h3><span id="growthCharacterName">—</span> · 成长率</h3></div><span class="detail-caption">角色与当前职业合计</span></div>
+        <div class="stats-grid full-stats-grid" id="statsGrid"></div>
+      </section>
+
+      <section class="detail-card ability-card full-row-card">
+          <div class="detail-title"><div><h3>能力值</h3></div><span class="current-class-badge" id="abilityClassBadge">—</span><span class="calculation-note">平均期望值 · 按转职路线逐级计算</span></div>
+          <div class="ability-grid" id="abilityGrid"></div>
+      </section>
+
+      <section class="detail-card route-card full-row-card">
+          <div class="detail-title"><div><h3>转职路线</h3></div><span class="route-hint">点击节点可回到该次转职，并清除后续路线</span></div>
+          <div class="route-list" id="routeList"></div>
+      </section>
+
+      <section class="detail-card job-picker-card">
+        <div class="job-picker-heading"><div class="detail-title"><div><h3>转职模拟</h3></div><button id="resetRoute" class="reset-button" type="button">重置</button></div><div class="level-control"><button id="levelDown" class="level-button" aria-label="降低等级">−</button><div class="level-readout"><span>当前等级</span><b id="levelValue">1</b></div><button id="levelUp" class="level-button" aria-label="提升等级">＋</button></div></div>
+        <input id="levelSlider" class="level-slider" type="range" min="1" max="99" value="1" aria-label="当前等级">
+        <div class="range-labels"><span>Lv.1</span><span>Lv.99</span></div>
+        <div class="class-categories" id="classCategories"></div>
+      </section>
+    </section>
+
+    <section class="workspace skills-page" id="skillsPage" hidden>
+      <div class="skills-empty"><h1>习得特技</h1><p>这里将展示角色习得的特技。</p><span class="coming-soon">内容整理中</span></div>
+    </section>
+  </main>
+  <script src="app.js" defer></script>
+</body>
+</html>
