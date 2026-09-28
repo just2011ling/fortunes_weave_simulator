@@ -1,0 +1,1447 @@
+{
+    "救世主": [
+        {
+            "chapter": "降临篇 第1章",
+            "startClass": "卫士",
+            "baseLevel": 40,
+            "baseStats": {
+                "hp": 50,
+                "str": 33,
+                "mag": 24,
+                "spd": 27,
+                "dex": 28,
+                "def": 23,
+                "res": 19,
+                "lck": 25,
+                "cha": 29
+            }
+        }
+    ],
+    "凯伊": [
+        {
+            "chapter": "凯伊篇 第1章",
+            "startClass": "平民",
+            "baseLevel": 1,
+            "baseStats": {
+                "hp": 27,
+                "str": 10,
+                "mag": 7,
+                "spd": 8,
+                "dex": 8,
+                "def": 6,
+                "res": 5,
+                "lck": 6,
+                "cha": 5
+            }
+        }
+    ],
+    "迪托利希": [
+        {
+            "chapter": "迪托利希篇 第1章",
+            "startClass": "平民",
+            "baseLevel": 1,
+            "baseStats": {
+                "hp": 27,
+                "str": 11,
+                "mag": 6,
+                "spd": 10,
+                "dex": 11,
+                "def": 6,
+                "res": 4,
+                "lck": 9,
+                "cha": 10
+            }
+        }
+    ],
+    "赛奥朵拉": [
+        {
+            "chapter": "赛奥朵拉篇 第1章",
+            "startClass": "贵族",
+            "baseLevel": 1,
+            "baseStats": {
+                "hp": 30,
+                "str": 6,
+                "mag": 6,
+                "spd": 6,
+                "dex": 6,
+                "def": 7,
+                "res": 5,
+                "lck": 6,
+                "cha": 8
+            }
+        }
+    ],
+    "蕾达": [
+        {
+            "chapter": "蕾达篇 第1章",
+            "startClass": "平民",
+            "baseLevel": 1,
+            "baseStats": {
+                "hp": 25,
+                "str": 8,
+                "mag": 6,
+                "spd": 12,
+                "dex": 8,
+                "def": 6,
+                "res": 6,
+                "lck": 5,
+                "cha": 10
+            }
+        }
+    ],
+    "法毕欧": [
+        {
+            "chapter": "迪托利希篇 第1章",
+            "startClass": "平民",
+            "baseLevel": 1,
+            "baseStats": {
+                "hp": 25,
+                "str": 6,
+                "mag": 10,
+                "spd": 7,
+                "dex": 6,
+                "def": 4,
+                "res": 8,
+                "lck": 6,
+                "cha": 5
+            }
+        }
+    ],
+    "媞雅拉": [
+        {
+            "chapter": "凯伊篇 第1章",
+            "startClass": "平民",
+            "baseLevel": 1,
+            "baseStats": {
+                "hp": 24,
+                "str": 5,
+                "mag": 8,
+                "spd": 6,
+                "dex": 6,
+                "def": 4,
+                "res": 6,
+                "lck": 7,
+                "cha": 5
+            }
+        }
+    ],
+    "皮特鲁": [
+        {
+            "chapter": "凯伊篇 第1章",
+            "startClass": "平民",
+            "baseLevel": 1,
+            "baseStats": {
+                "hp": 25,
+                "str": 9,
+                "mag": 3,
+                "spd": 6,
+                "dex": 10,
+                "def": 5,
+                "res": 4,
+                "lck": 5,
+                "cha": 4
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "弓箭手",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 34,
+                "str": 16,
+                "mag": 6,
+                "spd": 17,
+                "dex": 24,
+                "def": 11,
+                "res": 8,
+                "lck": 12,
+                "cha": 10
+            }
+        }
+    ],
+    "波拿帕尔特": [
+        {
+            "chapter": "赛奥朵拉篇 第1章",
+            "startClass": "贵族",
+            "baseLevel": 1,
+            "baseStats": {
+                "hp": 25,
+                "str": 7,
+                "mag": 10,
+                "spd": 7,
+                "dex": 8,
+                "def": 6,
+                "res": 8,
+                "lck": 5,
+                "cha": 7
+            }
+        }
+    ],
+    "托比亚斯": [
+        {
+            "chapter": "赛奥朵拉篇 第1章",
+            "startClass": "贵族",
+            "baseLevel": 1,
+            "baseStats": {
+                "hp": 28,
+                "str": 14,
+                "mag": 4,
+                "spd": 5,
+                "dex": 5,
+                "def": 8,
+                "res": 3,
+                "lck": 6,
+                "cha": 5
+            }
+        }
+    ],
+    "古扎岚": [
+        {
+            "chapter": "凯伊篇 第3章",
+            "startClass": "斗士",
+            "baseLevel": 5,
+            "baseStats": {
+                "hp": 28,
+                "str": 12,
+                "mag": 4,
+                "spd": 11,
+                "dex": 8,
+                "def": 7,
+                "res": 3,
+                "lck": 10,
+                "cha": 6
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "剑客",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 37,
+                "str": 21,
+                "mag": 7,
+                "spd": 20,
+                "dex": 16,
+                "def": 13,
+                "res": 5,
+                "lck": 18,
+                "cha": 12
+            }
+        }
+    ],
+    "乌尔坦德": [
+        {
+            "chapter": "凯伊篇 第6章",
+            "startClass": "诅咒师",
+            "baseLevel": 13,
+            "baseStats": {
+                "hp": 30,
+                "str": 11,
+                "mag": 15,
+                "spd": 10,
+                "dex": 10,
+                "def": 9,
+                "res": 11,
+                "lck": 15,
+                "cha": 15
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第7章",
+            "startClass": "诅咒师",
+            "baseLevel": 14,
+            "baseStats": {
+                "hp": 29,
+                "str": 10,
+                "mag": 14,
+                "spd": 9,
+                "dex": 9,
+                "def": 9,
+                "res": 10,
+                "lck": 14,
+                "cha": 14
+            }
+        }
+    ],
+    "杨界": [
+        {
+            "chapter": "凯伊篇 第4章",
+            "startClass": "诅咒师",
+            "baseLevel": 5,
+            "baseStats": {
+                "hp": 26,
+                "str": 7,
+                "mag": 11,
+                "spd": 6,
+                "dex": 7,
+                "def": 5,
+                "res": 8,
+                "lck": 7,
+                "cha": 5
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第4章",
+            "startClass": "诅咒师",
+            "baseLevel": 5,
+            "baseStats": {
+                "hp": 26,
+                "str": 7,
+                "mag": 11,
+                "spd": 6,
+                "dex": 7,
+                "def": 5,
+                "res": 8,
+                "lck": 7,
+                "cha": 5
+            }
+        }
+    ],
+    "诺克裘拉": [
+        {
+            "chapter": "凯伊篇 第5章",
+            "startClass": "斗士",
+            "baseLevel": 8,
+            "baseStats": {
+                "hp": 30,
+                "str": 12,
+                "mag": 4,
+                "spd": 10,
+                "dex": 8,
+                "def": 9,
+                "res": 5,
+                "lck": 8,
+                "cha": 6
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第8章",
+            "startClass": "斗拳手",
+            "baseLevel": 20,
+            "baseStats": {
+                "hp": 36,
+                "str": 17,
+                "mag": 5,
+                "spd": 14,
+                "dex": 12,
+                "def": 12,
+                "res": 6,
+                "lck": 11,
+                "cha": 9
+            }
+        }
+    ],
+    "卡塔妮雅": [
+        {
+            "chapter": "凯伊篇 第10章",
+            "startClass": "天翼兵",
+            "baseLevel": 29,
+            "baseStats": {
+                "hp": 34,
+                "str": 16,
+                "mag": 13,
+                "spd": 21,
+                "dex": 21,
+                "def": 13,
+                "res": 14,
+                "lck": 15,
+                "cha": 19
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "天翼兵",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 33,
+                "str": 15,
+                "mag": 12,
+                "spd": 19,
+                "dex": 20,
+                "def": 12,
+                "res": 13,
+                "lck": 14,
+                "cha": 17
+            }
+        }
+    ],
+    "努蒂奴": [
+        {
+            "chapter": "凯伊篇 第7章",
+            "startClass": "飞驼兵",
+            "baseLevel": 17,
+            "baseStats": {
+                "hp": 33,
+                "str": 13,
+                "mag": 10,
+                "spd": 16,
+                "dex": 12,
+                "def": 8,
+                "res": 9,
+                "lck": 10,
+                "cha": 10
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第7章",
+            "startClass": "飞驼兵",
+            "baseLevel": 14,
+            "baseStats": {
+                "hp": 31,
+                "str": 12,
+                "mag": 10,
+                "spd": 14,
+                "dex": 11,
+                "def": 7,
+                "res": 8,
+                "lck": 11,
+                "cha": 9
+            }
+        }
+    ],
+    "马吉迪": [
+        {
+            "chapter": "凯伊篇 第6章",
+            "startClass": "斗士",
+            "baseLevel": 12,
+            "baseStats": {
+                "hp": 37,
+                "str": 17,
+                "mag": 4,
+                "spd": 7,
+                "dex": 7,
+                "def": 11,
+                "res": 3,
+                "lck": 7,
+                "cha": 3
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "土匪",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 45,
+                "str": 24,
+                "mag": 5,
+                "spd": 10,
+                "dex": 11,
+                "def": 15,
+                "res": 3,
+                "lck": 9,
+                "cha": 4
+            }
+        }
+    ],
+    "米迦艾拉": [
+        {
+            "chapter": "凯伊篇 第6章",
+            "startClass": "斗士",
+            "baseLevel": 12,
+            "baseStats": {
+                "hp": 31,
+                "str": 15,
+                "mag": 5,
+                "spd": 9,
+                "dex": 10,
+                "def": 9,
+                "res": 6,
+                "lck": 8,
+                "cha": 11
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第4章",
+            "startClass": "斗士",
+            "baseLevel": 5,
+            "baseStats": {
+                "hp": 28,
+                "str": 12,
+                "mag": 4,
+                "spd": 7,
+                "dex": 8,
+                "def": 7,
+                "res": 5,
+                "lck": 7,
+                "cha": 9
+            }
+        }
+    ],
+    "哈尔温": [
+        {
+            "chapter": "凯伊篇 第6章",
+            "startClass": "猎兵",
+            "baseLevel": 12,
+            "baseStats": {
+                "hp": 28,
+                "str": 10,
+                "mag": 7,
+                "spd": 13,
+                "dex": 15,
+                "def": 7,
+                "res": 7,
+                "lck": 10,
+                "cha": 8
+            }
+        }
+    ],
+    "妮涅": [
+        {
+            "chapter": "凯伊篇 第7章",
+            "startClass": "士兵",
+            "baseLevel": 17,
+            "baseStats": {
+                "hp": 35,
+                "str": 14,
+                "mag": 9,
+                "spd": 9,
+                "dex": 14,
+                "def": 11,
+                "res": 14,
+                "lck": 13,
+                "cha": 11
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "轻骑兵",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 39,
+                "str": 17,
+                "mag": 11,
+                "spd": 12,
+                "dex": 17,
+                "def": 14,
+                "res": 17,
+                "lck": 17,
+                "cha": 14
+            }
+        }
+    ],
+    "哪吒": [
+        {
+            "chapter": "凯伊篇 第7章",
+            "startClass": "斗士",
+            "baseLevel": 17,
+            "baseStats": {
+                "hp": 33,
+                "str": 14,
+                "mag": 8,
+                "spd": 17,
+                "dex": 13,
+                "def": 11,
+                "res": 8,
+                "lck": 10,
+                "cha": 8
+            }
+        }
+    ],
+    "西提司": [
+        {
+            "chapter": "凯伊篇 第7章",
+            "startClass": "士兵",
+            "baseLevel": 17,
+            "baseStats": {
+                "hp": 33,
+                "str": 16,
+                "mag": 10,
+                "spd": 12,
+                "dex": 13,
+                "def": 12,
+                "res": 10,
+                "lck": 9,
+                "cha": 14
+            }
+        }
+    ],
+    "亚历珊德拉": [
+        {
+            "chapter": "凯伊篇 第8章",
+            "startClass": "天翼兵",
+            "baseLevel": 23,
+            "baseStats": {
+                "hp": 30,
+                "str": 13,
+                "mag": 11,
+                "spd": 20,
+                "dex": 15,
+                "def": 10,
+                "res": 15,
+                "lck": 18,
+                "cha": 19
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "天翼兵",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 31,
+                "str": 14,
+                "mag": 11,
+                "spd": 21,
+                "dex": 16,
+                "def": 11,
+                "res": 16,
+                "lck": 20,
+                "cha": 20
+            }
+        }
+    ],
+    "艾丝梅拉尔达": [
+        {
+            "chapter": "凯伊篇 第8章",
+            "startClass": "重装步兵",
+            "baseLevel": 23,
+            "baseStats": {
+                "hp": 39,
+                "str": 23,
+                "mag": 7,
+                "spd": 11,
+                "dex": 12,
+                "def": 16,
+                "res": 7,
+                "lck": 12,
+                "cha": 11
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第1章",
+            "startClass": "平民",
+            "baseLevel": 1,
+            "baseStats": {
+                "hp": 28,
+                "str": 12,
+                "mag": 4,
+                "spd": 6,
+                "dex": 5,
+                "def": 7,
+                "res": 3,
+                "lck": 7,
+                "cha": 6
+            }
+        }
+    ],
+    "哥莱亚斯": [
+        {
+            "chapter": "凯伊篇 第8章",
+            "startClass": "重装步兵",
+            "baseLevel": 23,
+            "baseStats": {
+                "hp": 43,
+                "str": 25,
+                "mag": 2,
+                "spd": 6,
+                "dex": 10,
+                "def": 19,
+                "res": 5,
+                "lck": 11,
+                "cha": 7
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第8章",
+            "startClass": "重装步兵",
+            "baseLevel": 20,
+            "baseStats": {
+                "hp": 42,
+                "str": 24,
+                "mag": 2,
+                "spd": 6,
+                "dex": 9,
+                "def": 17,
+                "res": 4,
+                "lck": 10,
+                "cha": 6
+            }
+        }
+    ],
+    "大刀": [
+        {
+            "chapter": "凯伊篇 第8章",
+            "startClass": "土匪",
+            "baseLevel": 23,
+            "baseStats": {
+                "hp": 39,
+                "str": 24,
+                "mag": 7,
+                "spd": 10,
+                "dex": 11,
+                "def": 17,
+                "res": 7,
+                "lck": 12,
+                "cha": 10
+            }
+        }
+    ],
+    "罗蕾塔": [
+        {
+            "chapter": "凯伊篇 第8章",
+            "startClass": "天翼兵",
+            "baseLevel": 23,
+            "baseStats": {
+                "hp": 31,
+                "str": 14,
+                "mag": 12,
+                "spd": 19,
+                "dex": 13,
+                "def": 10,
+                "res": 11,
+                "lck": 11,
+                "cha": 9
+            }
+        }
+    ],
+    "嘉丝敏": [
+        {
+            "chapter": "凯伊篇 第9章",
+            "startClass": "重装步兵",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 39,
+                "str": 17,
+                "mag": 7,
+                "spd": 7,
+                "dex": 16,
+                "def": 19,
+                "res": 7,
+                "lck": 14,
+                "cha": 15
+            }
+        }
+    ],
+    "莉利安": [
+        {
+            "chapter": "凯伊篇 第9章",
+            "startClass": "弓箭手",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 32,
+                "str": 13,
+                "mag": 10,
+                "spd": 17,
+                "dex": 21,
+                "def": 10,
+                "res": 10,
+                "lck": 15,
+                "cha": 9
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "弓箭手",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 32,
+                "str": 13,
+                "mag": 10,
+                "spd": 17,
+                "dex": 21,
+                "def": 11,
+                "res": 10,
+                "lck": 15,
+                "cha": 10
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第1章",
+            "startClass": "猎兵",
+            "baseLevel": 5,
+            "baseStats": {
+                "hp": 25,
+                "str": 8,
+                "mag": 6,
+                "spd": 9,
+                "dex": 10,
+                "def": 6,
+                "res": 5,
+                "lck": 7,
+                "cha": 6
+            }
+        }
+    ],
+    "莱桑达": [
+        {
+            "chapter": "凯伊篇 第9章",
+            "startClass": "轻骑兵",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 36,
+                "str": 16,
+                "mag": 9,
+                "spd": 17,
+                "dex": 13,
+                "def": 15,
+                "res": 10,
+                "lck": 13,
+                "cha": 13
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第8章",
+            "startClass": "轻骑兵",
+            "baseLevel": 20,
+            "baseStats": {
+                "hp": 34,
+                "str": 14,
+                "mag": 8,
+                "spd": 15,
+                "dex": 12,
+                "def": 13,
+                "res": 9,
+                "lck": 12,
+                "cha": 10
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第1章",
+            "startClass": "飞驼兵",
+            "baseLevel": 5,
+            "baseStats": {
+                "hp": 28,
+                "str": 9,
+                "mag": 6,
+                "spd": 8,
+                "dex": 8,
+                "def": 8,
+                "res": 6,
+                "lck": 8,
+                "cha": 7
+            }
+        }
+    ],
+    "奥琳琵娅": [
+        {
+            "chapter": "凯伊篇 第9章",
+            "startClass": "牧师",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 31,
+                "str": 10,
+                "mag": 23,
+                "spd": 13,
+                "dex": 13,
+                "def": 9,
+                "res": 15,
+                "lck": 14,
+                "cha": 16
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第8章",
+            "startClass": "牧师",
+            "baseLevel": 20,
+            "baseStats": {
+                "hp": 29,
+                "str": 9,
+                "mag": 20,
+                "spd": 12,
+                "dex": 11,
+                "def": 8,
+                "res": 13,
+                "lck": 12,
+                "cha": 14
+            }
+        },
+        {
+            "chapter": "蕾达篇 第4章",
+            "startClass": "诅咒师",
+            "baseLevel": 5,
+            "baseStats": {
+                "hp": 25,
+                "str": 6,
+                "mag": 13,
+                "spd": 8,
+                "dex": 7,
+                "def": 6,
+                "res": 7,
+                "lck": 8,
+                "cha": 9
+            }
+        }
+    ],
+    "希蒙": [
+        {
+            "chapter": "凯伊篇 第9章",
+            "startClass": "土匪",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 39,
+                "str": 22,
+                "mag": 7,
+                "spd": 13,
+                "dex": 14,
+                "def": 15,
+                "res": 7,
+                "lck": 19,
+                "cha": 10
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "土匪",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 40,
+                "str": 23,
+                "mag": 7,
+                "spd": 13,
+                "dex": 15,
+                "def": 15,
+                "res": 7,
+                "lck": 19,
+                "cha": 10
+            }
+        }
+    ],
+    "札可捏": [
+        {
+            "chapter": "凯伊篇 第9章",
+            "startClass": "土匪",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 36,
+                "str": 14,
+                "mag": 6,
+                "spd": 15,
+                "dex": 22,
+                "def": 10,
+                "res": 8,
+                "lck": 11,
+                "cha": 7
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "土匪",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 36,
+                "str": 15,
+                "mag": 6,
+                "spd": 15,
+                "dex": 22,
+                "def": 10,
+                "res": 7,
+                "lck": 12,
+                "cha": 7
+            }
+        }
+    ],
+    "绯亚娜": [
+        {
+            "chapter": "凯伊篇 第9章",
+            "startClass": "牧师",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 28,
+                "str": 9,
+                "mag": 24,
+                "spd": 10,
+                "dex": 14,
+                "def": 6,
+                "res": 18,
+                "lck": 9,
+                "cha": 15
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "牧师",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 28,
+                "str": 10,
+                "mag": 25,
+                "spd": 11,
+                "dex": 14,
+                "def": 6,
+                "res": 19,
+                "lck": 9,
+                "cha": 15
+            }
+        }
+    ],
+    "奇洛伊卡": [
+        {
+            "chapter": "凯伊篇 第9章",
+            "startClass": "恶棍",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 38,
+                "str": 16,
+                "mag": 5,
+                "spd": 22,
+                "dex": 21,
+                "def": 11,
+                "res": 6,
+                "lck": 13,
+                "cha": 8
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第6章",
+            "startClass": "猎兵",
+            "baseLevel": 11,
+            "baseStats": {
+                "hp": 31,
+                "str": 11,
+                "mag": 4,
+                "spd": 15,
+                "dex": 14,
+                "def": 8,
+                "res": 5,
+                "lck": 9,
+                "cha": 5
+            }
+        }
+    ],
+    "易尼奥尼": [
+        {
+            "chapter": "凯伊篇 第9章",
+            "startClass": "弓箭手",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 35,
+                "str": 22,
+                "mag": 9,
+                "spd": 14,
+                "dex": 14,
+                "def": 13,
+                "res": 9,
+                "lck": 14,
+                "cha": 10
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "弓箭手",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 36,
+                "str": 22,
+                "mag": 9,
+                "spd": 14,
+                "dex": 15,
+                "def": 14,
+                "res": 9,
+                "lck": 14,
+                "cha": 10
+            }
+        }
+    ],
+    "西洛可": [
+        {
+            "chapter": "凯伊篇 第9章",
+            "startClass": "剑客",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 34,
+                "str": 14,
+                "mag": 17,
+                "spd": 18,
+                "dex": 18,
+                "def": 11,
+                "res": 14,
+                "lck": 18,
+                "cha": 16
+            }
+        },
+        {
+            "chapter": "蕾达篇 第1章",
+            "startClass": "平民",
+            "baseLevel": 1,
+            "baseStats": {
+                "hp": 26,
+                "str": 8,
+                "mag": 8,
+                "spd": 9,
+                "dex": 8,
+                "def": 6,
+                "res": 7,
+                "lck": 8,
+                "cha": 8
+            }
+        }
+    ],
+    "穆": [
+        {
+            "chapter": "凯伊篇 第9章",
+            "startClass": "斗拳手",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 34,
+                "str": 18,
+                "mag": 7,
+                "spd": 17,
+                "dex": 17,
+                "def": 13,
+                "res": 10,
+                "lck": 9,
+                "cha": 11
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "战车兵",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 35,
+                "str": 19,
+                "mag": 7,
+                "spd": 17,
+                "dex": 18,
+                "def": 13,
+                "res": 10,
+                "lck": 9,
+                "cha": 12
+            }
+        },
+        {
+            "chapter": "蕾达篇 第1章",
+            "startClass": "平民",
+            "baseLevel": 1,
+            "baseStats": {
+                "hp": 23,
+                "str": 7,
+                "mag": 3,
+                "spd": 7,
+                "dex": 8,
+                "def": 5,
+                "res": 5,
+                "lck": 4,
+                "cha": 4
+            }
+        }
+    ],
+    "班迪兹": [
+        {
+            "chapter": "凯伊篇 第9章",
+            "startClass": "战车兵",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 38,
+                "str": 16,
+                "mag": 7,
+                "spd": 12,
+                "dex": 20,
+                "def": 14,
+                "res": 8,
+                "lck": 11,
+                "cha": 11
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "战车兵",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 39,
+                "str": 17,
+                "mag": 7,
+                "spd": 12,
+                "dex": 20,
+                "def": 14,
+                "res": 8,
+                "lck": 12,
+                "cha": 11
+            }
+        }
+    ],
+    "索绯雅": [
+        {
+            "chapter": "凯伊篇 第9章",
+            "startClass": "牧师",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 30,
+                "str": 9,
+                "mag": 22,
+                "spd": 10,
+                "dex": 15,
+                "def": 8,
+                "res": 18,
+                "lck": 12,
+                "cha": 13
+            }
+        }
+    ],
+    "露露蒂雅": [
+        {
+            "chapter": "凯伊篇 第9章",
+            "startClass": "剑客",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 34,
+                "str": 15,
+                "mag": 7,
+                "spd": 23,
+                "dex": 16,
+                "def": 11,
+                "res": 6,
+                "lck": 11,
+                "cha": 10
+            }
+        }
+    ],
+    "乌修拉": [
+        {
+            "chapter": "凯伊篇 第10章",
+            "startClass": "恶棍",
+            "baseLevel": 29,
+            "baseStats": {
+                "hp": 35,
+                "str": 15,
+                "mag": 14,
+                "spd": 22,
+                "dex": 23,
+                "def": 12,
+                "res": 11,
+                "lck": 16,
+                "cha": 18
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "恶棍",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 33,
+                "str": 14,
+                "mag": 13,
+                "spd": 20,
+                "dex": 22,
+                "def": 11,
+                "res": 10,
+                "lck": 15,
+                "cha": 17
+            }
+        }
+    ],
+    "丹提": [
+        {
+            "chapter": "凯伊篇 第10章",
+            "startClass": "萨满巫师",
+            "baseLevel": 29,
+            "baseStats": {
+                "hp": 32,
+                "str": 10,
+                "mag": 22,
+                "spd": 18,
+                "dex": 16,
+                "def": 7,
+                "res": 18,
+                "lck": 18,
+                "cha": 11
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "萨满巫师",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 31,
+                "str": 9,
+                "mag": 21,
+                "spd": 17,
+                "dex": 15,
+                "def": 7,
+                "res": 17,
+                "lck": 16,
+                "cha": 10
+            }
+        }
+    ],
+    "佩佩": [
+        {
+            "chapter": "凯伊篇 第10章",
+            "startClass": "恶棍",
+            "baseLevel": 29,
+            "baseStats": {
+                "hp": 31,
+                "str": 12,
+                "mag": 10,
+                "spd": 26,
+                "dex": 20,
+                "def": 11,
+                "res": 11,
+                "lck": 18,
+                "cha": 10
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "恶棍",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 30,
+                "str": 12,
+                "mag": 9,
+                "spd": 24,
+                "dex": 19,
+                "def": 10,
+                "res": 11,
+                "lck": 17,
+                "cha": 8
+            }
+        }
+    ],
+    "伊欧": [
+        {
+            "chapter": "凯伊篇 第10章",
+            "startClass": "轻骑兵",
+            "baseLevel": 29,
+            "baseStats": {
+                "hp": 39,
+                "str": 19,
+                "mag": 9,
+                "spd": 14,
+                "dex": 18,
+                "def": 18,
+                "res": 10,
+                "lck": 16,
+                "cha": 14
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第5章",
+            "startClass": "轻骑兵",
+            "baseLevel": 20,
+            "baseStats": {
+                "hp": 35,
+                "str": 16,
+                "mag": 7,
+                "spd": 10,
+                "dex": 14,
+                "def": 14,
+                "res": 8,
+                "lck": 13,
+                "cha": 11
+            }
+        }
+    ],
+    "杰斯塔": [
+        {
+            "chapter": "凯伊篇 第10章",
+            "startClass": "剑客",
+            "baseLevel": 29,
+            "baseStats": {
+                "hp": 35,
+                "str": 16,
+                "mag": 8,
+                "spd": 24,
+                "dex": 20,
+                "def": 11,
+                "res": 8,
+                "lck": 15,
+                "cha": 17
+            }
+        },
+        {
+            "chapter": "迪托利希篇 第8章",
+            "startClass": "剑客",
+            "baseLevel": 20,
+            "baseStats": {
+                "hp": 32,
+                "str": 14,
+                "mag": 7,
+                "spd": 19,
+                "dex": 16,
+                "def": 9,
+                "res": 7,
+                "lck": 12,
+                "cha": 13
+            }
+        }
+    ],
+    "迪雅各": [
+        {
+            "chapter": "凯伊篇 第11章",
+            "startClass": "恶棍",
+            "baseLevel": 31,
+            "baseStats": {
+                "hp": 38,
+                "str": 18,
+                "mag": 8,
+                "spd": 21,
+                "dex": 25,
+                "def": 13,
+                "res": 7,
+                "lck": 15,
+                "cha": 11
+            }
+        }
+    ],
+    "巴卡尼亚": [
+        {
+            "chapter": "迪托利希篇 第9章",
+            "startClass": "重装步兵",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 41,
+                "str": 23,
+                "mag": 7,
+                "spd": 8,
+                "dex": 15,
+                "def": 19,
+                "res": 6,
+                "lck": 11,
+                "cha": 13
+            }
+        },
+        {
+            "chapter": "蕾达篇 第1章",
+            "startClass": "平民",
+            "baseLevel": 1,
+            "baseStats": {
+                "hp": 29,
+                "str": 12,
+                "mag": 4,
+                "spd": 5,
+                "dex": 6,
+                "def": 8,
+                "res": 3,
+                "lck": 6,
+                "cha": 6
+            }
+        }
+    ],
+    "特洛伊亚": [
+        {
+            "chapter": "降临篇 第2章",
+            "startClass": "武僧",
+            "baseLevel": 45,
+            "baseStats": {
+                "hp": 52,
+                "str": 31,
+                "mag": 32,
+                "spd": 33,
+                "dex": 28,
+                "def": 23,
+                "res": 28,
+                "lck": 24,
+                "cha": 21
+            }
+        }
+    ],
+    "红花": [
+        {
+            "chapter": "降临篇 第1章",
+            "startClass": "先知",
+            "baseLevel": 40,
+            "baseStats": {
+                "hp": 45,
+                "str": 15,
+                "mag": 34,
+                "spd": 26,
+                "dex": 30,
+                "def": 21,
+                "res": 30,
+                "lck": 18,
+                "cha": 22
+            }
+        }
+    ],
+    "努佐": []
+}

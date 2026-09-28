@@ -6,19 +6,19 @@ const tiers = [
   { name: '最上级', level: 45 },
 ];
 const statMeta = [['hp','生命'],['str','力量'],['mag','魔力'],['spd','速度'],['dex','技巧'],['def','守备'],['res','魔防'],['lck','幸运'],['cha','魅力']];
-let characters = [], classes = [], selected = null, level = 1, jobRoute = [], page = 'simulation';
+let characters = [], classes = [], chapterCharacters = {}, selected = null, selectedCase = null, level = 1, jobRoute = [], page = 'simulation';
 const $ = id => document.getElementById(id);
 const classMap = new Map();
 
 async function init() {
   try {
-    const [charRes, classRes] = await Promise.all([fetch('./data/characters.json'), fetch('./data/classes.json')]);
-    if (!charRes.ok || !classRes.ok) throw new Error('无法读取本地资料');
-    [characters, classes] = await Promise.all([charRes.json(), classRes.json()]);
+    const [charRes, classRes, chapterRes] = await Promise.all([fetch('./data/characters.json'), fetch('./data/classes.json'), fetch('./data/chapter_characters.json')]);
+    if (!charRes.ok || !classRes.ok || !chapterRes.ok) throw new Error('无法读取本地资料');
+    [characters, classes, chapterCharacters] = await Promise.all([charRes.json(), classRes.json(), chapterRes.json()]);
     classes = classes.filter(c => c.tier !== '神将');
     classes.forEach(c => classMap.set(c.id, c));
     bind(); renderRoster();
-    selectCharacter(characters.find(c => c.startClass === '平民') || characters[0]);
+    selectCharacter(characters.find(c => chapterCharacters[c.name]?.length) || characters[0]);
   } catch (error) {
     $('simulationPage').innerHTML = `<div class="load-error"><span>✳</span><h2>资料暂时无法载入</h2><p>请通过本地网页服务器打开此页面。</p><small>${error.message}</small></div>`;
   }
@@ -30,6 +30,11 @@ function bind() {
   $('levelUp').addEventListener('click', () => changeLevel(level + 1));
   $('levelSlider').addEventListener('input', e => changeLevel(Number(e.target.value)));
   $('resetRoute').addEventListener('click', resetRoute);
+  $('scenarioSelect').addEventListener('change', e => {
+    const cases = chapterCharacters[selected?.name] || [];
+    selectedCase = cases[Number(e.target.value)] || null;
+    resetRoute();
+  });
   document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); $('searchInput').focus(); } });
 }
 function setPage(next) {
@@ -47,14 +52,25 @@ function renderRoster() {
 }
 function selectCharacter(character) {
   selected = character;
-  level = Math.min(99, Math.max(1, Number(character.baseLevel) || 1));
-  const start = classes.find(c => c.name === character.startClass) || classes.find(c => c.name === '平民') || classes.find(c => c.name === '贵族');
-  jobRoute = [{ classId: start?.id || null, level: Number(character.baseLevel) || 1, initial: true, leveled: true }];
+  selectedCase = (chapterCharacters[character.name] || [])[0] || null;
+  renderScenarioPicker();
+  resetRoute();
   renderRoster(); renderAll();
 }
+function profileClassName() { return selectedCase?.startClass || null; }
+function profileLevel() { return Math.max(1, Number(selectedCase?.baseLevel) || 1); }
+function profileStats() { return selectedCase?.baseStats || null; }
+function renderScenarioPicker() {
+  const cases = chapterCharacters[selected?.name] || [];
+  const picker = $('scenarioSelect');
+  picker.innerHTML = cases.length
+    ? cases.map((item, index) => `<option value="${index}" ${item === selectedCase ? 'selected' : ''}>${esc(item.chapter || `情况 ${index + 1}`)} · Lv.${Number(item.baseLevel) || 1} ${esc(item.startClass || '')}</option>`).join('')
+    : '<option value="">暂无章节数据</option>';
+  picker.disabled = cases.length < 2;
+}
 function resetRoute() {
-  const originalClass = classes.find(c => c.name === selected?.startClass) || classes.find(c => c.name === '平民') || classes.find(c => c.name === '贵族');
-  level = Math.min(99, Math.max(1, Number(selected?.baseLevel) || 1));
+  const originalClass = classes.find(c => c.name === profileClassName()) || classes.find(c => c.name === '平民') || classes.find(c => c.name === '贵族');
+  level = Math.min(99, profileLevel());
   jobRoute = [{ classId: originalClass?.id || null, level, initial: true, leveled: true }];
   renderAll();
 }
@@ -71,7 +87,7 @@ function changeLevel(next) {
   renderAll();
 }
 function currentClass() {
-  return classMap.get(currentEntry()?.classId) || classes.find(c => c.name === selected?.startClass);
+  return classMap.get(currentEntry()?.classId) || classes.find(c => c.name === profileClassName());
 }
 function currentEntry() { return [...jobRoute].reverse().find(item => item.level <= level) || jobRoute[0]; }
 function renderAll() {
@@ -100,18 +116,19 @@ function renderAbilities() {
   }).join('');
 }
 function expectedStat(key) {
-  const base = Number(selected.baseStats?.[key]);
+  const base = Number(profileStats()?.[key]);
   if (!Number.isFinite(base)) return NaN;
   const charGrowth = Number(selected.growth?.[key]) || 0;
-  const baseLevel = Math.max(1, Number(selected.baseLevel) || 1);
-  let value = base;
+  const baseLevel = profileLevel();
+  const startingClass = classMap.get(jobRoute[0]?.classId);
+  let value = base + (Number(startingClass?.baseStats?.[key]) || 0);
   if (level >= baseLevel) {
     for (let lv = baseLevel + 1; lv <= level; lv++) value += growthAt(key, lv, charGrowth);
   } else {
     for (let lv = level + 1; lv <= baseLevel; lv++) value -= growthAt(key, lv, charGrowth);
   }
-  // Character base stats use the starting class. Each recorded transfer replaces its class correction.
-  let previous = classMap.get(jobRoute[0]?.classId);
+  // Add the starting class correction above; each transfer replaces the previous class correction.
+  let previous = startingClass;
   for (const event of jobRoute.slice(1)) {
     if (event.level > level) continue;
     const next = classMap.get(event.classId);
@@ -126,7 +143,7 @@ function growthAt(key, gainedLevel, charGrowth) {
 }
 function classAtLevel(gainedLevel) {
   const event = [...jobRoute].reverse().find(item => item.level < gainedLevel);
-  return classMap.get(event?.classId) || classes.find(c => c.name === selected?.startClass);
+  return classMap.get(event?.classId) || classes.find(c => c.name === profileClassName());
 }
 function renderRoute() {
   const activeEntry = currentEntry();
