@@ -329,6 +329,22 @@
                 "lck": 11,
                 "cha": 9
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第6章",
+            "startClass": "斗士",
+            "baseLevel": 12,
+            "baseStats": {
+                "hp": 32,
+                "str": 14,
+                "mag": 4,
+                "spd": 12,
+                "dex": 9,
+                "def": 10,
+                "res": 5,
+                "lck": 9,
+                "cha": 7
+            }
         }
     ],
     "卡塔妮雅": [
@@ -927,6 +943,22 @@
                 "lck": 12,
                 "cha": 7
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第6章",
+            "startClass": "斗士",
+            "baseLevel": 12,
+            "baseStats": {
+                "hp": 30,
+                "str": 10,
+                "mag": 4,
+                "spd": 11,
+                "dex": 16,
+                "def": 7,
+                "res": 6,
+                "lck": 8,
+                "cha": 5
+            }
         }
     ],
     "绯亚娜": [
@@ -1164,6 +1196,22 @@
                 "res": 18,
                 "lck": 12,
                 "cha": 13
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第5章",
+            "startClass": "诅咒师",
+            "baseLevel": 7,
+            "baseStats": {
+                "hp": 24,
+                "str": 6,
+                "mag": 14,
+                "spd": 6,
+                "dex": 8,
+                "def": 6,
+                "res": 11,
+                "lck": 7,
+                "cha": 7
             }
         }
     ],
