@@ -157,6 +157,22 @@
                 "lck": 12,
                 "cha": 10
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第8章",
+            "startClass": "弓箭手",
+            "baseLevel": 21,
+            "baseStats": {
+                "hp": 33,
+                "str": 14,
+                "mag": 6,
+                "spd": 15,
+                "dex": 21,
+                "def": 9,
+                "res": 7,
+                "lck": 10,
+                "cha": 8
+            }
         }
     ],
     "波拿帕尔特": [
@@ -227,6 +243,22 @@
                 "lck": 18,
                 "cha": 12
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第8章",
+            "startClass": "剑客",
+            "baseLevel": 21,
+            "baseStats": {
+                "hp": 35,
+                "str": 19,
+                "mag": 7,
+                "spd": 17,
+                "dex": 14,
+                "def": 11,
+                "res": 6,
+                "lck": 16,
+                "cha": 10
+            }
         }
     ],
     "乌尔坦德": [
@@ -261,6 +293,22 @@
                 "lck": 14,
                 "cha": 14
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第7章",
+            "startClass": "诅咒师",
+            "baseLevel": 17,
+            "baseStats": {
+                "hp": 30,
+                "str": 11,
+                "mag": 15,
+                "spd": 10,
+                "dex": 10,
+                "def": 9,
+                "res": 12,
+                "lck": 15,
+                "cha": 15
+            }
         }
     ],
     "杨界": [
@@ -294,6 +342,22 @@
                 "res": 8,
                 "lck": 7,
                 "cha": 5
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第9章",
+            "startClass": "牧师",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 35,
+                "str": 11,
+                "mag": 20,
+                "spd": 11,
+                "dex": 13,
+                "def": 9,
+                "res": 16,
+                "lck": 14,
+                "cha": 9
             }
         }
     ],
@@ -379,12 +443,28 @@
                 "lck": 14,
                 "cha": 17
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第8章",
+            "startClass": "天翼兵",
+            "baseLevel": 21,
+            "baseStats": {
+                "hp": 31,
+                "str": 14,
+                "mag": 11,
+                "spd": 17,
+                "dex": 18,
+                "def": 10,
+                "res": 12,
+                "lck": 12,
+                "cha": 15
+            }
         }
     ],
     "努蒂奴": [
         {
             "chapter": "凯伊篇 第7章",
-            "startClass": "飞驼兵",
+            "startClass": "飞鸵兵",
             "baseLevel": 17,
             "baseStats": {
                 "hp": 33,
@@ -400,7 +480,7 @@
         },
         {
             "chapter": "迪托利希篇 第7章",
-            "startClass": "飞驼兵",
+            "startClass": "飞鸵兵",
             "baseLevel": 14,
             "baseStats": {
                 "hp": 31,
@@ -412,6 +492,22 @@
                 "res": 8,
                 "lck": 11,
                 "cha": 9
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第7章",
+            "startClass": "飞鸵兵",
+            "baseLevel": 17,
+            "baseStats": {
+                "hp": 33,
+                "str": 13,
+                "mag": 10,
+                "spd": 16,
+                "dex": 12,
+                "def": 8,
+                "res": 9,
+                "lck": 10,
+                "cha": 10
             }
         }
     ],
@@ -447,6 +543,22 @@
                 "lck": 9,
                 "cha": 4
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第8章",
+            "startClass": "土匪",
+            "baseLevel": 21,
+            "baseStats": {
+                "hp": 42,
+                "str": 22,
+                "mag": 5,
+                "spd": 9,
+                "dex": 9,
+                "def": 13,
+                "res": 4,
+                "lck": 9,
+                "cha": 3
+            }
         }
     ],
     "米迦艾拉": [
@@ -481,6 +593,22 @@
                 "lck": 7,
                 "cha": 9
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第8章",
+            "startClass": "土匪",
+            "baseLevel": 21,
+            "baseStats": {
+                "hp": 35,
+                "str": 19,
+                "mag": 7,
+                "spd": 12,
+                "dex": 12,
+                "def": 12,
+                "res": 7,
+                "lck": 10,
+                "cha": 14
+            }
         }
     ],
     "哈尔温": [
@@ -488,6 +616,22 @@
             "chapter": "凯伊篇 第6章",
             "startClass": "猎兵",
             "baseLevel": 12,
+            "baseStats": {
+                "hp": 28,
+                "str": 10,
+                "mag": 7,
+                "spd": 13,
+                "dex": 15,
+                "def": 7,
+                "res": 7,
+                "lck": 10,
+                "cha": 8
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第8章TODO",
+            "startClass": "猎兵",
+            "baseLevel": 21,
             "baseStats": {
                 "hp": 28,
                 "str": 10,
@@ -533,11 +677,43 @@
                 "lck": 17,
                 "cha": 14
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第7章",
+            "startClass": "士兵",
+            "baseLevel": 17,
+            "baseStats": {
+                "hp": 35,
+                "str": 14,
+                "mag": 9,
+                "spd": 9,
+                "dex": 14,
+                "def": 11,
+                "res": 14,
+                "lck": 13,
+                "cha": 11
+            }
         }
     ],
     "哪吒": [
         {
             "chapter": "凯伊篇 第7章",
+            "startClass": "斗士",
+            "baseLevel": 17,
+            "baseStats": {
+                "hp": 33,
+                "str": 14,
+                "mag": 8,
+                "spd": 17,
+                "dex": 13,
+                "def": 11,
+                "res": 8,
+                "lck": 10,
+                "cha": 8
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第7章",
             "startClass": "斗士",
             "baseLevel": 17,
             "baseStats": {
@@ -565,6 +741,22 @@
                 "spd": 12,
                 "dex": 13,
                 "def": 12,
+                "res": 10,
+                "lck": 9,
+                "cha": 14
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第7章",
+            "startClass": "士兵",
+            "baseLevel": 17,
+            "baseStats": {
+                "hp": 33,
+                "str": 16,
+                "mag": 10,
+                "spd": 12,
+                "dex": 13,
+                "def": 11,
                 "res": 10,
                 "lck": 9,
                 "cha": 14
@@ -603,6 +795,22 @@
                 "lck": 20,
                 "cha": 20
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第8章",
+            "startClass": "天翼兵",
+            "baseLevel": 21,
+            "baseStats": {
+                "hp": 29,
+                "str": 12,
+                "mag": 10,
+                "spd": 19,
+                "dex": 14,
+                "def": 9,
+                "res": 14,
+                "lck": 18,
+                "cha": 18
+            }
         }
     ],
     "艾丝梅拉尔达": [
@@ -623,7 +831,7 @@
             }
         },
         {
-            "chapter": "迪托利希篇 第1章",
+            "chapter": "迪托利希篇 第2章",
             "startClass": "平民",
             "baseLevel": 1,
             "baseStats": {
@@ -636,6 +844,22 @@
                 "res": 3,
                 "lck": 7,
                 "cha": 6
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第9章",
+            "startClass": "重装步兵",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 40,
+                "str": 24,
+                "mag": 7,
+                "spd": 11,
+                "dex": 12,
+                "def": 18,
+                "res": 7,
+                "lck": 13,
+                "cha": 11
             }
         }
     ],
@@ -671,6 +895,22 @@
                 "lck": 10,
                 "cha": 6
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第9章",
+            "startClass": "重装步兵",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 44,
+                "str": 26,
+                "mag": 2,
+                "spd": 6,
+                "dex": 10,
+                "def": 20,
+                "res": 5,
+                "lck": 12,
+                "cha": 7
+            }
         }
     ],
     "大刀": [
@@ -688,6 +928,22 @@
                 "res": 7,
                 "lck": 12,
                 "cha": 10
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第7章",
+            "startClass": "斗士",
+            "baseLevel": 17,
+            "baseStats": {
+                "hp": 36,
+                "str": 21,
+                "mag": 6,
+                "spd": 9,
+                "dex": 9,
+                "def": 14,
+                "res": 6,
+                "lck": 11,
+                "cha": 8
             }
         }
     ],
@@ -707,6 +963,22 @@
                 "lck": 11,
                 "cha": 9
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第7章",
+            "startClass": "斗士",
+            "baseLevel": 17,
+            "baseStats": {
+                "hp": 29,
+                "str": 12,
+                "mag": 10,
+                "spd": 16,
+                "dex": 12,
+                "def": 8,
+                "res": 9,
+                "lck": 9,
+                "cha": 7
+            }
         }
     ],
     "嘉丝敏": [
@@ -724,6 +996,22 @@
                 "res": 7,
                 "lck": 14,
                 "cha": 15
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第8章",
+            "startClass": "重装步兵",
+            "baseLevel": 21,
+            "baseStats": {
+                "hp": 37,
+                "str": 15,
+                "mag": 6,
+                "spd": 8,
+                "dex": 15,
+                "def": 16,
+                "res": 6,
+                "lck": 13,
+                "cha": 14
             }
         }
     ],
@@ -812,7 +1100,7 @@
         },
         {
             "chapter": "赛奥朵拉篇 第1章",
-            "startClass": "飞驼兵",
+            "startClass": "飞鸵兵",
             "baseLevel": 5,
             "baseStats": {
                 "hp": 28,
@@ -858,6 +1146,22 @@
                 "res": 13,
                 "lck": 12,
                 "cha": 14
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第9章",
+            "startClass": "牧师",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 31,
+                "str": 10,
+                "mag": 23,
+                "spd": 13,
+                "dex": 13,
+                "def": 9,
+                "res": 15,
+                "lck": 14,
+                "cha": 16
             }
         },
         {
@@ -908,6 +1212,22 @@
                 "res": 7,
                 "lck": 19,
                 "cha": 10
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第8章",
+            "startClass": "土匪",
+            "baseLevel": 21,
+            "baseStats": {
+                "hp": 37,
+                "str": 20,
+                "mag": 7,
+                "spd": 11,
+                "dex": 13,
+                "def": 13,
+                "res": 6,
+                "lck": 18,
+                "cha": 9
             }
         }
     ],
@@ -993,6 +1313,22 @@
                 "lck": 9,
                 "cha": 15
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第9章",
+            "startClass": "牧师",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 28,
+                "str": 9,
+                "mag": 24,
+                "spd": 10,
+                "dex": 14,
+                "def": 6,
+                "res": 18,
+                "lck": 9,
+                "cha": 15
+            }
         }
     ],
     "奇洛伊卡": [
@@ -1026,6 +1362,22 @@
                 "res": 5,
                 "lck": 9,
                 "cha": 5
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第9章",
+            "startClass": "恶棍",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 38,
+                "str": 16,
+                "mag": 5,
+                "spd": 22,
+                "dex": 21,
+                "def": 11,
+                "res": 6,
+                "lck": 13,
+                "cha": 8
             }
         }
     ],
@@ -1061,6 +1413,22 @@
                 "lck": 14,
                 "cha": 10
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第9章",
+            "startClass": "弓箭手",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 35,
+                "str": 22,
+                "mag": 9,
+                "spd": 14,
+                "dex": 14,
+                "def": 13,
+                "res": 9,
+                "lck": 14,
+                "cha": 10
+            }
         }
     ],
     "西洛可": [
@@ -1078,6 +1446,22 @@
                 "res": 14,
                 "lck": 18,
                 "cha": 16
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第7章",
+            "startClass": "诅咒师",
+            "baseLevel": 17,
+            "baseStats": {
+                "hp": 31,
+                "str": 12,
+                "mag": 14,
+                "spd": 14,
+                "dex": 15,
+                "def": 9,
+                "res": 12,
+                "lck": 14,
+                "cha": 13
             }
         },
         {
@@ -1131,6 +1515,22 @@
             }
         },
         {
+            "chapter": "赛奥朵拉篇 第9章",
+            "startClass": "斗拳手",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 34,
+                "str": 18,
+                "mag": 7,
+                "spd": 17,
+                "dex": 17,
+                "def": 13,
+                "res": 9,
+                "lck": 9,
+                "cha": 11
+            }
+        },
+        {
             "chapter": "蕾达篇 第1章",
             "startClass": "平民",
             "baseLevel": 1,
@@ -1178,6 +1578,22 @@
                 "res": 8,
                 "lck": 12,
                 "cha": 11
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第8章",
+            "startClass": "战车兵",
+            "baseLevel": 21,
+            "baseStats": {
+                "hp": 36,
+                "str": 15,
+                "mag": 6,
+                "spd": 11,
+                "dex": 18,
+                "def": 12,
+                "res": 7,
+                "lck": 10,
+                "cha": 9
             }
         }
     ],
@@ -1230,6 +1646,22 @@
                 "res": 6,
                 "lck": 11,
                 "cha": 10
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第8章",
+            "startClass": "剑客",
+            "baseLevel": 21,
+            "baseStats": {
+                "hp": 32,
+                "str": 14,
+                "mag": 7,
+                "spd": 21,
+                "dex": 15,
+                "def": 10,
+                "res": 6,
+                "lck": 9,
+                "cha": 9
             }
         }
     ],
@@ -1299,6 +1731,22 @@
                 "lck": 16,
                 "cha": 10
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第7章",
+            "startClass": "诅咒师",
+            "baseLevel": 17,
+            "baseStats": {
+                "hp": 29,
+                "str": 8,
+                "mag": 16,
+                "spd": 14,
+                "dex": 11,
+                "def": 6,
+                "res": 13,
+                "lck": 13,
+                "cha": 8
+            }
         }
     ],
     "佩佩": [
@@ -1367,6 +1815,22 @@
                 "lck": 13,
                 "cha": 11
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第9章",
+            "startClass": "轻骑兵",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 37,
+                "str": 17,
+                "mag": 8,
+                "spd": 12,
+                "dex": 16,
+                "def": 16,
+                "res": 9,
+                "lck": 15,
+                "cha": 13
+            }
         }
     ],
     "杰斯塔": [
@@ -1400,6 +1864,22 @@
                 "res": 7,
                 "lck": 12,
                 "cha": 13
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第9章",
+            "startClass": "剑客",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 34,
+                "str": 15,
+                "mag": 7,
+                "spd": 22,
+                "dex": 18,
+                "def": 10,
+                "res": 8,
+                "lck": 14,
+                "cha": 15
             }
         }
     ],
@@ -1491,5 +1971,22 @@
             }
         }
     ],
-    "努佐": []
+    "努佐": [
+        {
+            "chapter": "赛奥朵拉篇 第9章",
+            "startClass": "恶棍",
+            "baseLevel": 25,
+            "baseStats": {
+                "hp": 37,
+                "str": 18,
+                "mag": 5,
+                "spd": 23,
+                "dex": 18,
+                "def": 9,
+                "res": 8,
+                "lck": 10,
+                "cha": 11
+            }
+        }
+    ]
 }
