@@ -1,11 +1,11 @@
 const tiers = [
-  { name: '基础', level: 1 },
-  { name: '初级', level: 10 },
-  { name: '中级', level: 20 },
-  { name: '上级', level: 35 },
-  { name: '最上级', level: 45 },
+  { name: '基础' },
+  { name: '初级' },
+  { name: '中级' },
+  { name: '上级' },
+  { name: '最上级' },
 ];
-const statMeta = [['hp','生命'],['str','力量'],['mag','魔力'],['spd','速度'],['dex','技巧'],['def','守备'],['res','魔防'],['lck','幸运'],['cha','魅力']];
+const statMeta = [['hp','HP'],['str','力量'],['mag','魔力'],['spd','速度'],['dex','技巧'],['def','守备'],['res','魔防'],['lck','幸运'],['cha','魅力']];
 let characters = [], classes = [], chapterCharacters = {}, selected = null, selectedCase = null, level = 1, jobRoute = [], page = 'simulation';
 const $ = id => document.getElementById(id);
 const classMap = new Map();
@@ -75,7 +75,7 @@ function resetRoute() {
   renderAll();
 }
 function currentMinLevel() {
-  const lastRecorded = [...jobRoute].reverse().find(entry => entry.initial || entry.leveled);
+  const lastRecorded = jobRoute[jobRoute.length - 1];
   return Math.max(1, Number(lastRecorded?.level) || 1);
 }
 function changeLevel(next) {
@@ -147,7 +147,7 @@ function classAtLevel(gainedLevel) {
 }
 function renderRoute() {
   const activeEntry = currentEntry();
-  const routeEntries = jobRoute.map((entry, index) => ({ ...entry, routeIndex: index })).filter(entry => entry.initial || entry.leveled);
+  const routeEntries = jobRoute.map((entry, index) => ({ ...entry, routeIndex: index }));
   $('routeList').innerHTML = routeEntries.map(entry => {
     const cls = classMap.get(entry.classId);
     const active = activeEntry === jobRoute[entry.routeIndex];
@@ -165,15 +165,19 @@ function renderRoute() {
 }
 function renderClassPicker() {
   $('classCategories').innerHTML = tiers.slice(1).map(tier => {
-    const available = level >= tier.level;
     const options = classes.filter(c => c.tier === tier.name);
-    return `<section class="class-category ${available ? 'category-open' : 'category-locked'}"><header><div><span class="category-tier">${tier.name}职业</span><span class="category-level">Lv.${tier.level} 解锁</span></div>${available ? '<span class="category-status">可选择</span>' : `<span class="category-lock">需 Lv.${tier.level}</span>`}</header><div class="job-options">${options.map(cls => `<button class="job-option ${currentClass()?.id === cls.id ? 'chosen' : ''}" data-class="${cls.id}" ${available ? '' : 'disabled'}><span>${esc(cls.name)}</span>${cls.growthTotal ? `<small>成长 ${fmtSigned(cls.growthTotal)}</small>` : ''}</button>`).join('') || '<span class="no-jobs">暂无职业资料</span>'}</div></section>`;
+    return `<section class="class-category category-open"><header><div><span class="category-tier">${tier.name}职业</span></div><span class="category-status">可选择</span></header><div class="job-options">${options.map(cls => `<button class="job-option ${currentClass()?.id === cls.id ? 'chosen' : ''}" data-class="${cls.id}" ${currentClass()?.id === cls.id ? 'disabled aria-current="true"' : ''}><span>${esc(cls.name)}</span>${cls.growthTotal ? `<small>成长 ${fmtSigned(cls.growthTotal)}</small>` : ''}</button>`).join('') || '<span class="no-jobs">暂无职业资料</span>'}</div></section>`;
   }).join('');
   $('classCategories').querySelectorAll('.job-option:not(:disabled)').forEach(button => button.addEventListener('click', () => {
     const cls = classMap.get(button.dataset.class);
-    if (!cls || level < (tiers.find(t => t.name === cls.tier)?.level || 1)) return;
+    if (!cls || cls.id === currentClass()?.id) return;
     jobRoute = jobRoute.filter(event => event.level <= level);
-    jobRoute.push({ classId: cls.id, level, initial: false });
+    const lastEvent = jobRoute[jobRoute.length - 1];
+    if (lastEvent && !lastEvent.initial && !lastEvent.leveled && lastEvent.level === level) {
+      lastEvent.classId = cls.id;
+    } else {
+      jobRoute.push({ classId: cls.id, level, initial: false, leveled: false });
+    }
     renderAll();
   }));
 }
