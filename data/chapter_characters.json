@@ -123,6 +123,22 @@
                 "lck": 7,
                 "cha": 5
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第12章",
+            "startClass": "牧师",
+            "baseLevel": 35,
+            "baseStats": {
+                "hp": 33,
+                "str": 10,
+                "mag": 23,
+                "spd": 16,
+                "dex": 18,
+                "def": 7,
+                "res": 19,
+                "lck": 22,
+                "cha": 18
+            }
         }
     ],
     "皮特鲁": [
@@ -1697,6 +1713,22 @@
                 "lck": 15,
                 "cha": 17
             }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第11章TODO",
+            "startClass": "恶棍",
+            "baseLevel": 26,
+            "baseStats": {
+                "hp": 33,
+                "str": 14,
+                "mag": 13,
+                "spd": 20,
+                "dex": 22,
+                "def": 11,
+                "res": 10,
+                "lck": 15,
+                "cha": 17
+            }
         }
     ],
     "丹提": [
@@ -1780,6 +1812,22 @@
                 "res": 11,
                 "lck": 17,
                 "cha": 8
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第11章",
+            "startClass": "恶棍",
+            "baseLevel": 33,
+            "baseStats": {
+                "hp": 32,
+                "str": 13,
+                "mag": 11,
+                "spd": 29,
+                "dex": 22,
+                "def": 12,
+                "res": 12,
+                "lck": 19,
+                "cha": 11
             }
         }
     ],
@@ -1932,6 +1980,22 @@
                 "res": 3,
                 "lck": 6,
                 "cha": 6
+            }
+        },
+        {
+            "chapter": "赛奥朵拉篇 第10章",
+            "startClass": "重装步兵",
+            "baseLevel": 28,
+            "baseStats": {
+                "hp": 42,
+                "str": 24,
+                "mag": 7,
+                "spd": 9,
+                "dex": 15,
+                "def": 20,
+                "res": 6,
+                "lck": 12,
+                "cha": 14
             }
         }
     ],

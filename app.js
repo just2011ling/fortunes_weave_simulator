@@ -164,9 +164,11 @@ function renderRoute() {
   }));
 }
 function renderClassPicker() {
-  $('classCategories').innerHTML = tiers.slice(1).map(tier => {
+  const categoryMarkup = (title, options) => `<section class="class-category category-open"><header><div><span class="category-tier">${title}</span></div><span class="category-status">可选择</span></header><div class="job-options">${options.map(cls => `<button class="job-option ${currentClass()?.id === cls.id ? 'chosen' : ''}" data-class="${cls.id}" ${currentClass()?.id === cls.id ? 'disabled aria-current="true"' : ''}><span>${esc(cls.name)}</span>${cls.growthTotal ? `<small>成长 ${fmtSigned(cls.growthTotal)}</small>` : ''}</button>`).join('') || '<span class="no-jobs">暂无职业资料</span>'}</div></section>`;
+  const basicClasses = classes.filter(cls => cls.tier === '基础' && ['平民', '贵族'].includes(cls.name));
+  $('classCategories').innerHTML = categoryMarkup('基础职业', basicClasses) + tiers.slice(1).map(tier => {
     const options = classes.filter(c => c.tier === tier.name);
-    return `<section class="class-category category-open"><header><div><span class="category-tier">${tier.name}职业</span></div><span class="category-status">可选择</span></header><div class="job-options">${options.map(cls => `<button class="job-option ${currentClass()?.id === cls.id ? 'chosen' : ''}" data-class="${cls.id}" ${currentClass()?.id === cls.id ? 'disabled aria-current="true"' : ''}><span>${esc(cls.name)}</span>${cls.growthTotal ? `<small>成长 ${fmtSigned(cls.growthTotal)}</small>` : ''}</button>`).join('') || '<span class="no-jobs">暂无职业资料</span>'}</div></section>`;
+    return categoryMarkup(`${tier.name}职业`, options);
   }).join('');
   $('classCategories').querySelectorAll('.job-option:not(:disabled)').forEach(button => button.addEventListener('click', () => {
     const cls = classMap.get(button.dataset.class);
