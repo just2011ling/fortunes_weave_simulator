@@ -4,6 +4,7 @@ const tiers = [
   { name: '中级' },
   { name: '上级' },
   { name: '最上级' },
+  { name: '神将' },
 ];
 const statMeta = [['hp','HP'],['str','力量'],['mag','魔力'],['spd','速度'],['dex','技巧'],['def','守备'],['res','魔防'],['lck','幸运'],['cha','魅力']];
 let characters = [], classes = [], chapterCharacters = {}, selected = null, selectedCase = null, level = 1, jobRoute = [], page = 'simulation';
@@ -15,7 +16,6 @@ async function init() {
     const [charRes, classRes, chapterRes] = await Promise.all([fetch('./data/characters.json'), fetch('./data/classes.json'), fetch('./data/chapter_characters.json')]);
     if (!charRes.ok || !classRes.ok || !chapterRes.ok) throw new Error('无法读取本地资料');
     [characters, classes, chapterCharacters] = await Promise.all([charRes.json(), classRes.json(), chapterRes.json()]);
-    classes = classes.filter(c => c.tier !== '神将');
     classes.forEach(c => classMap.set(c.id, c));
     bind(); renderRoster();
     selectCharacter(characters.find(c => chapterCharacters[c.name]?.length) || characters[0]);
@@ -103,8 +103,7 @@ function renderGrowth() {
   $('growthCharacterName').textContent = selected.name;
   $('statsGrid').innerHTML = statMeta.map(([key,label]) => {
     const total = (Number(selected.growth?.[key]) || 0) + (Number(job?.growth?.[key]) || 0);
-    const width = `${Math.min(100, Math.max(2, Math.max(0,total) / 1.3))}%`;
-    return `<div class="growth-stat"><span class="growth-stat-name">${label}</span><div class="growth-bars"><div class="bar-row total-row"><i><b style="width:${width}"></b></i><em>${fmtSigned(total)}%</em></div></div></div>`;
+    return `<div class="ability-stat"><span>${label}</span><b>${fmtSigned(total)}%</b></div>`;
   }).join('');
 }
 function renderAbilities() {
@@ -120,7 +119,7 @@ function expectedStat(key) {
   if (!Number.isFinite(base)) return NaN;
   const charGrowth = Number(selected.growth?.[key]) || 0;
   const baseLevel = profileLevel();
-  const startingClass = classMap.get(jobRoute[0]?.classId);
+  const startingClass = classes.find(c => c.name === profileClassName()) || classMap.get(jobRoute.find(event => event.initial)?.classId);
   let value = base + (Number(startingClass?.baseStats?.[key]) || 0);
   if (level >= baseLevel) {
     for (let lv = baseLevel + 1; lv <= level; lv++) value += growthAt(key, lv, charGrowth);
@@ -129,7 +128,7 @@ function expectedStat(key) {
   }
   // Add the starting class correction above; each transfer replaces the previous class correction.
   let previous = startingClass;
-  for (const event of jobRoute.slice(1)) {
+  for (const event of jobRoute.filter(item => !item.initial)) {
     if (event.level > level) continue;
     const next = classMap.get(event.classId);
     value += (Number(next?.baseStats?.[key]) || 0) - (Number(previous?.baseStats?.[key]) || 0);
@@ -173,13 +172,12 @@ function renderClassPicker() {
   $('classCategories').querySelectorAll('.job-option:not(:disabled)').forEach(button => button.addEventListener('click', () => {
     const cls = classMap.get(button.dataset.class);
     if (!cls || cls.id === currentClass()?.id) return;
-    jobRoute = jobRoute.filter(event => event.level <= level);
-    const lastEvent = jobRoute[jobRoute.length - 1];
-    if (lastEvent && !lastEvent.initial && !lastEvent.leveled && lastEvent.level === level) {
-      lastEvent.classId = cls.id;
-    } else {
-      jobRoute.push({ classId: cls.id, level, initial: false, leveled: false });
-    }
+    const retainedRoute = jobRoute.filter(event => event.level <= level);
+    const lastEvent = retainedRoute[retainedRoute.length - 1];
+    if (lastEvent?.classId === cls.id) return;
+    jobRoute = retainedRoute;
+    if (lastEvent && !lastEvent.initial && lastEvent.level === level) jobRoute.pop();
+    jobRoute.push({ classId: cls.id, level, initial: false, leveled: false });
     renderAll();
   }));
 }

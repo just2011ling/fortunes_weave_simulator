@@ -1065,7 +1065,7 @@
             }
         },
         {
-            "chapter": "赛奥朵拉篇 第1章",
+            "chapter": "赛奥朵拉篇 第4章",
             "startClass": "猎兵",
             "baseLevel": 5,
             "baseStats": {
@@ -1115,7 +1115,7 @@
             }
         },
         {
-            "chapter": "赛奥朵拉篇 第1章",
+            "chapter": "赛奥朵拉篇 第4章",
             "startClass": "飞鸵兵",
             "baseLevel": 5,
             "baseStats": {
@@ -2050,6 +2050,24 @@
                 "res": 8,
                 "lck": 10,
                 "cha": 11
+            }
+        }
+    ],
+    "盖茨": [
+        {
+            "chapter": "迪托利希篇 第12章",
+            "startClass": "轻骑兵",
+            "baseLevel": 34,
+            "baseStats": {
+                "hp": 43,
+                "str": 24,
+                "mag": 7,
+                "spd": 17,
+                "dex": 19,
+                "def": 19,
+                "res": 9,
+                "lck": 15,
+                "cha": 19
             }
         }
     ]
