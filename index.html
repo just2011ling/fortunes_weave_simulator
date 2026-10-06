@@ -28,7 +28,7 @@
     <section class="workspace" id="simulationPage">
       <div class="scenario-picker"><label for="scenarioSelect">加入章节</label><select id="scenarioSelect" aria-label="选择角色加入章节"></select></div>
       <section class="detail-card growth-card full-growth-card">
-        <div class="detail-title"><div><h3><span id="growthCharacterName">—</span> · 成长率</h3></div><span class="detail-caption">角色与当前职业合计</span></div>
+        <div class="detail-title"><div><h3><span id="growthCharacterName">—</span> · 成长率</h3></div><span class="detail-caption" id="growthTotalCaption">角色与当前职业合计</span></div>
         <div class="stats-grid full-stats-grid ability-grid" id="statsGrid"></div>
       </section>
 
@@ -38,12 +38,12 @@
       </section>
 
       <section class="detail-card route-card full-row-card">
-          <div class="detail-title"><div><h3>转职路线</h3></div><span class="route-hint">点击节点可回到该次转职，并清除后续路线</span></div>
+          <div class="detail-title"><div><h3>转职路线</h3></div></div>
           <div class="route-list" id="routeList"></div>
       </section>
 
       <section class="detail-card job-picker-card">
-        <div class="job-picker-heading"><div class="detail-title"><div><h3>转职模拟</h3></div><button id="resetRoute" class="reset-button" type="button">重置</button></div><div class="level-control"><button id="levelDown" class="level-button" aria-label="降低等级">−</button><div class="level-readout"><span>当前等级</span><b id="levelValue">1</b></div><button id="levelUp" class="level-button" aria-label="提升等级">＋</button></div></div>
+        <div class="job-picker-heading"><div class="detail-title"><div><h3>转职模拟</h3></div><button id="resetRoute" class="reset-button" type="button">重置</button><label class="mount-picker" id="mountPicker" hidden><span>坐骑</span><select id="mountSelect" aria-label="配属坐骑"></select><span class="mount-stats" id="mountStats" hidden></span></label></div><div class="level-control"><button id="levelDown" class="level-button" aria-label="降低等级">−</button><div class="level-readout"><span>当前等级</span><b id="levelValue">1</b></div><button id="levelUp" class="level-button" aria-label="提升等级">＋</button></div></div>
         <input id="levelSlider" class="level-slider" type="range" min="1" max="99" value="1" aria-label="当前等级">
         <div class="range-labels"><span>Lv.1</span><span>Lv.99</span></div>
         <div class="class-categories" id="classCategories"></div>

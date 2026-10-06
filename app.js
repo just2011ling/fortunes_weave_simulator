@@ -7,15 +7,29 @@ const tiers = [
   { name: '神将' },
 ];
 const statMeta = [['hp','HP'],['str','力量'],['mag','魔力'],['spd','速度'],['dex','技巧'],['def','守备'],['res','魔防'],['lck','幸运'],['cha','魅力']];
-let characters = [], classes = [], chapterCharacters = {}, selected = null, selectedCase = null, level = 1, jobRoute = [], page = 'simulation';
+const mountTypesByClass = {
+  '飞鸵兵': ['飞鸵'], '骑甲鸵兵': ['飞鸵'], '神鸵兵': ['飞鸵'],
+  '天翼兵': ['天马', '飞马'], '圣天翼兵': ['天马', '飞马'],
+  '驭龙兵': ['飞龙'], '飞龙将领': ['飞龙'],
+  '轻骑兵': ['马'], '战车兵': ['马'], '森林骑士': ['马'], '荣光骑士': ['马'],
+  '重装骑兵': ['马'], '高阶墓志铭': ['马'], '弓骑士': ['马'], '奥利哈铁骑': ['马'],
+  '英勇骑士': ['马'], '瓦尔基里姆': ['马'], '烈骏神将': ['马'],
+  '战象兵': ['战象'],
+};
+const mountStatKeys = { HP: 'hp', 力: 'str', 魔: 'mag', 速: 'spd', 技: 'dex', 防: 'def', 魔防: 'res', 幸: 'lck', 魅: 'cha' };
+let characters = [], classes = [], chapterCharacters = {}, mounts = [], selectedMount = null, selected = null, selectedCase = null, level = 1, jobRoute = [], page = 'simulation';
 const $ = id => document.getElementById(id);
 const classMap = new Map();
 
 async function init() {
   try {
-    const [charRes, classRes, chapterRes] = await Promise.all([fetch('./data/characters.json'), fetch('./data/classes.json'), fetch('./data/chapter_characters.json')]);
-    if (!charRes.ok || !classRes.ok || !chapterRes.ok) throw new Error('无法读取本地资料');
-    [characters, classes, chapterCharacters] = await Promise.all([charRes.json(), classRes.json(), chapterRes.json()]);
+    const [charRes, classRes, chapterRes, mountRes] = await Promise.all([fetch('./data/characters.json'), fetch('./data/classes.json'), fetch('./data/chapter_characters.json'), fetch('./data/mount.json')]);
+    if (!charRes.ok || !classRes.ok || !chapterRes.ok || !mountRes.ok) throw new Error('无法读取本地资料');
+    [characters, classes, chapterCharacters, mounts] = await Promise.all([charRes.json(), classRes.json(), chapterRes.json(), mountRes.json()]);
+    mounts.forEach(mount => {
+      mount.bonusStats = parseMountModifiers(mount.bonus);
+      mount.growthStats = parseMountModifiers(mount.growth);
+    });
     classes.forEach(c => classMap.set(c.id, c));
     bind(); renderRoster();
     selectCharacter(characters.find(c => chapterCharacters[c.name]?.length) || characters[0]);
@@ -29,11 +43,15 @@ function bind() {
   $('levelDown').addEventListener('click', () => changeLevel(level - 1));
   $('levelUp').addEventListener('click', () => changeLevel(level + 1));
   $('levelSlider').addEventListener('input', e => changeLevel(Number(e.target.value)));
-  $('resetRoute').addEventListener('click', resetRoute);
+  $('resetRoute').addEventListener('click', () => resetRoute());
+  $('mountSelect').addEventListener('change', e => {
+    selectedMount = e.target.value === '' ? null : mounts[Number(e.target.value)] || null;
+    renderAll();
+  });
   $('scenarioSelect').addEventListener('change', e => {
     const cases = chapterCharacters[selected?.name] || [];
     selectedCase = cases[Number(e.target.value)] || null;
-    resetRoute();
+    resetRoute(true);
   });
   document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); $('searchInput').focus(); } });
 }
@@ -54,7 +72,7 @@ function selectCharacter(character) {
   selected = character;
   selectedCase = (chapterCharacters[character.name] || [])[0] || null;
   renderScenarioPicker();
-  resetRoute();
+  resetRoute(true);
   renderRoster(); renderAll();
 }
 function profileClassName() { return selectedCase?.startClass || null; }
@@ -68,8 +86,16 @@ function renderScenarioPicker() {
     : '<option value="">暂无章节数据</option>';
   picker.disabled = cases.length < 2;
 }
-function resetRoute() {
+function defaultMountForSelection() {
+  const startClass = profileClassName();
+  let mountName = null;
+  if (selected?.name === '伊欧' && ['骑兵', '轻骑兵'].includes(startClass)) mountName = '罗西南';
+  if (selected?.name === '亚历珊德拉' && ['天翼兵', '圣天翼兵'].includes(startClass)) mountName = '布克发拉斯';
+  return mounts.find(mount => mount.name === mountName) || null;
+}
+function resetRoute(useDefaultMount = false) {
   const originalClass = classes.find(c => c.name === profileClassName()) || classes.find(c => c.name === '平民') || classes.find(c => c.name === '贵族');
+  selectedMount = useDefaultMount ? defaultMountForSelection() : null;
   level = Math.min(99, profileLevel());
   jobRoute = [{ classId: originalClass?.id || null, level, initial: true, leveled: true }];
   renderAll();
@@ -96,19 +122,46 @@ function renderAll() {
   $('levelSlider').style.setProperty('--progress', `${((level - 1) / 98) * 100}%`);
   $('levelSlider').min = currentMinLevel(); $('levelSlider').max = 99;
   $('levelDown').disabled = level <= currentMinLevel(); $('levelUp').disabled = level >= 99;
-  renderGrowth(); renderAbilities(); renderRoute(); renderClassPicker();
+  renderMountPicker(); renderGrowth(); renderAbilities(); renderRoute(); renderClassPicker();
+}
+function parseMountModifiers(text) {
+  const result = {};
+  const modifierPattern = /(\d+)\s*(HP|魔防|魔|力|技|速|防|幸|魅)\s*%?|(HP|魔防|魔|力|技|速|防|幸|魅)\s*(\d+)\s*%?/g;
+  for (const match of String(text || '').matchAll(modifierPattern)) {
+    const code = match[2] || match[3];
+    const value = Number(match[1] || match[4]);
+    const key = mountStatKeys[code];
+    if (key) result[key] = (result[key] || 0) + value;
+  }
+  return result;
+}
+function renderMountPicker() {
+  const picker = $('mountPicker');
+  const select = $('mountSelect');
+  const stats = $('mountStats');
+  const types = mountTypesByClass[currentClass()?.name] || [];
+  const compatible = mounts.map((mount, index) => ({ mount, index })).filter(({ mount }) => types.includes(mount.type));
+  if (!selectedMount || !types.includes(selectedMount.type)) selectedMount = null;
+  picker.hidden = compatible.length === 0;
+  stats.hidden = !selectedMount;
+  stats.textContent = selectedMount ? `${selectedMount.bonus} / ${selectedMount.growth}` : '';
+  if (!compatible.length) return;
+  select.innerHTML = '<option value="">无配属</option>' + compatible.map(({ mount, index }) => `<option value="${index}" ${selectedMount === mount ? 'selected' : ''}>${esc(mount.name)}</option>`).join('');
+  select.value = selectedMount ? String(mounts.indexOf(selectedMount)) : '';
 }
 function renderGrowth() {
   const job = currentClass();
   $('growthCharacterName').textContent = selected.name;
+  $('growthTotalCaption').hidden = ['平民', '贵族'].includes(job?.name);
   $('statsGrid').innerHTML = statMeta.map(([key,label]) => {
-    const total = (Number(selected.growth?.[key]) || 0) + (Number(job?.growth?.[key]) || 0);
+    const mountGrowthMultiplier = job?.name === '战车兵' ? 2 : 1;
+    const total = (Number(selected.growth?.[key]) || 0) + (Number(job?.growth?.[key]) || 0) + (Number(selectedMount?.growthStats?.[key]) || 0) * mountGrowthMultiplier;
     return `<div class="ability-stat"><span>${label}</span><b>${fmtSigned(total)}%</b></div>`;
   }).join('');
 }
 function renderAbilities() {
   const job = currentClass();
-  $('abilityClassBadge').textContent = job?.name || '未知职业';
+  $('abilityClassBadge').textContent = `Lv.${level} ${job?.name || '未知职业'}`;
   $('abilityGrid').innerHTML = statMeta.map(([key,label]) => {
     const value = expectedStat(key);
     return `<div class="ability-stat"><span>${label}</span><b>${Number.isFinite(value) ? value.toFixed(1) : '—'}</b></div>`;
@@ -134,11 +187,12 @@ function expectedStat(key) {
     value += (Number(next?.baseStats?.[key]) || 0) - (Number(previous?.baseStats?.[key]) || 0);
     previous = next || previous;
   }
-  return value;
+  return value + (Number(selectedMount?.bonusStats?.[key]) || 0);
 }
 function growthAt(key, gainedLevel, charGrowth) {
   const active = classAtLevel(gainedLevel);
-  return (charGrowth + (Number(active?.growth?.[key]) || 0)) / 100;
+  const mountGrowthMultiplier = active?.name === '战车兵' ? 2 : 1;
+  return (charGrowth + (Number(active?.growth?.[key]) || 0) + (Number(selectedMount?.growthStats?.[key]) || 0) * mountGrowthMultiplier) / 100;
 }
 function classAtLevel(gainedLevel) {
   const event = [...jobRoute].reverse().find(item => item.level < gainedLevel);
