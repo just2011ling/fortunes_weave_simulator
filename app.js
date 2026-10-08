@@ -13,7 +13,7 @@ const mountTypesByClass = {
   '驭龙兵': ['飞龙'], '飞龙将领': ['飞龙'],
   '轻骑兵': ['马'], '战车兵': ['马'], '森林骑士': ['马'], '荣光骑士': ['马'],
   '重装骑兵': ['马'], '高阶墓志铭': ['马'], '弓骑士': ['马'], '奥利哈铁骑': ['马'],
-  '英勇骑士': ['马'], '瓦尔基里姆': ['马'], '烈骏神将': ['马'],
+  '英勇骑士': ['马'], '瓦尔基里姆': ['马'], '烈骏神将': ['马'], '游唱诗人': ['马'],
   '战象兵': ['战象'],
 };
 const mountStatKeys = { HP: 'hp', 力: 'str', 魔: 'mag', 速: 'spd', 技: 'dex', 防: 'def', 魔防: 'res', 幸: 'lck', 魅: 'cha' };
@@ -46,6 +46,8 @@ function bind() {
   $('resetRoute').addEventListener('click', () => resetRoute());
   $('mountSelect').addEventListener('change', e => {
     selectedMount = e.target.value === '' ? null : mounts[Number(e.target.value)] || null;
+    const activeEntry = currentEntry();
+    if (activeEntry) activeEntry.mountName = selectedMount?.name || null;
     renderAll();
   });
   $('scenarioSelect').addEventListener('change', e => {
@@ -97,7 +99,7 @@ function resetRoute(useDefaultMount = false) {
   const originalClass = classes.find(c => c.name === profileClassName()) || classes.find(c => c.name === '平民') || classes.find(c => c.name === '贵族');
   selectedMount = useDefaultMount ? defaultMountForSelection() : null;
   level = Math.min(99, profileLevel());
-  jobRoute = [{ classId: originalClass?.id || null, level, initial: true, leveled: true }];
+  jobRoute = [{ classId: originalClass?.id || null, level, initial: true, leveled: true, mountName: selectedMount?.name || null }];
   renderAll();
 }
 function currentMinLevel() {
@@ -142,6 +144,8 @@ function renderMountPicker() {
   const types = mountTypesByClass[currentClass()?.name] || [];
   const compatible = mounts.map((mount, index) => ({ mount, index })).filter(({ mount }) => types.includes(mount.type));
   if (!selectedMount || !types.includes(selectedMount.type)) selectedMount = null;
+  const activeEntry = currentEntry();
+  if (activeEntry) activeEntry.mountName = selectedMount?.name || null;
   picker.hidden = compatible.length === 0;
   stats.hidden = !selectedMount;
   stats.textContent = selectedMount ? `${selectedMount.bonus} / ${selectedMount.growth}` : '';
@@ -204,7 +208,8 @@ function renderRoute() {
   $('routeList').innerHTML = routeEntries.map(entry => {
     const cls = classMap.get(entry.classId);
     const active = activeEntry === jobRoute[entry.routeIndex];
-    return `<button type="button" class="route-step available ${active ? 'has-job' : ''}" data-route-index="${entry.routeIndex}" title="回到 Lv.${entry.level} 并清除后续路线"><span class="route-dot"></span><span class="route-tier">${esc(cls?.tier || '基础')}</span><b>${esc(cls?.name || '未知职业')}</b><span class="route-level">Lv.${entry.level}</span></button>`;
+    const mountLabel = entry.mountName ? `<small class="route-mount-name">${esc(entry.mountName)}</small>` : '';
+    return `<button type="button" class="route-step available ${active ? 'has-job' : ''}" data-route-index="${entry.routeIndex}" title="回到 Lv.${entry.level} 并清除后续路线"><span class="route-dot"></span><span class="route-tier">${esc(cls?.tier || '基础')}</span><span class="route-job-info"><b>${esc(cls?.name || '未知职业')}</b>${mountLabel}</span><span class="route-level">Lv.${entry.level}</span></button>`;
   }).join('');
   $('routeList').querySelectorAll('.route-step').forEach(button => button.addEventListener('click', () => {
     const index = Number(button.dataset.routeIndex);
@@ -212,6 +217,7 @@ function renderRoute() {
     if (!checkpoint) return;
     jobRoute = jobRoute.slice(0, index + 1);
     level = checkpoint.level;
+    selectedMount = mounts.find(mount => mount.name === checkpoint.mountName) || null;
     $('levelSlider').value = level;
     renderAll();
   }));
@@ -231,7 +237,8 @@ function renderClassPicker() {
     if (lastEvent?.classId === cls.id) return;
     jobRoute = retainedRoute;
     if (lastEvent && !lastEvent.initial && lastEvent.level === level) jobRoute.pop();
-    jobRoute.push({ classId: cls.id, level, initial: false, leveled: false });
+    if (selectedMount && !(mountTypesByClass[cls.name] || []).includes(selectedMount.type)) selectedMount = null;
+    jobRoute.push({ classId: cls.id, level, initial: false, leveled: false, mountName: selectedMount?.name || null });
     renderAll();
   }));
 }

@@ -525,6 +525,14 @@ body {
   color: #93948b;
 }
 
+.route-job-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+}
+
 .route-step b {
   font-size: 10px;
   font-weight: 500;
@@ -533,6 +541,13 @@ body {
 
 .route-step.has-job b {
   color: #4d5e4a;
+}
+
+.route-mount-name {
+  color: #9c9e94;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.25;
 }
 
 .route-level {
@@ -1421,7 +1436,7 @@ body {
   grid-row: 1;
 }
 
-.route-step b {
+.route-job-info {
   grid-column: 2/4;
   grid-row: 2;
 }
