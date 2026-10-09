@@ -275,6 +275,22 @@
                 "lck": 16,
                 "cha": 10
             }
+        },
+        {
+            "chapter": "蕾达篇 第5章",
+            "startClass": "斗士",
+            "baseLevel": 9,
+            "baseStats": {
+                "hp": 29,
+                "str": 14,
+                "mag": 5,
+                "spd": 12,
+                "dex": 10,
+                "def": 8,
+                "res": 4,
+                "lck": 11,
+                "cha": 7
+            }
         }
     ],
     "乌尔坦德": [
@@ -474,6 +490,22 @@
                 "res": 12,
                 "lck": 12,
                 "cha": 15
+            }
+        },
+        {
+            "chapter": "蕾达篇 第4章",
+            "startClass": "平民",
+            "baseLevel": 4,
+            "baseStats": {
+                "hp": 26,
+                "str": 8,
+                "mag": 6,
+                "spd": 11,
+                "dex": 10,
+                "def": 5,
+                "res": 7,
+                "lck": 7,
+                "cha": 9
             }
         }
     ],
@@ -995,6 +1027,22 @@
                 "lck": 9,
                 "cha": 7
             }
+        },
+        {
+            "chapter": "蕾达篇 第6章",
+            "startClass": "斗士",
+            "baseLevel": 12,
+            "baseStats": {
+                "hp": 27,
+                "str": 10,
+                "mag": 9,
+                "spd": 14,
+                "dex": 10,
+                "def": 7,
+                "res": 7,
+                "lck": 8,
+                "cha": 6
+            }
         }
     ],
     "嘉丝敏": [
@@ -1028,6 +1076,22 @@
                 "res": 6,
                 "lck": 13,
                 "cha": 14
+            }
+        },
+        {
+            "chapter": "蕾达篇 第6章",
+            "startClass": "士兵",
+            "baseLevel": 12,
+            "baseStats": {
+                "hp": 33,
+                "str": 12,
+                "mag": 5,
+                "spd": 7,
+                "dex": 11,
+                "def": 12,
+                "res": 5,
+                "lck": 10,
+                "cha": 11
             }
         }
     ],
@@ -1181,7 +1245,7 @@
             }
         },
         {
-            "chapter": "蕾达篇 第4章",
+            "chapter": "蕾达篇 第3章",
             "startClass": "诅咒师",
             "baseLevel": 5,
             "baseStats": {
@@ -1345,6 +1409,22 @@
                 "lck": 9,
                 "cha": 15
             }
+        },
+        {
+            "chapter": "蕾达篇 第6章",
+            "startClass": "诅咒师",
+            "baseLevel": 12,
+            "baseStats": {
+                "hp": 24,
+                "str": 6,
+                "mag": 17,
+                "spd": 7,
+                "dex": 10,
+                "def": 5,
+                "res": 13,
+                "lck": 6,
+                "cha": 10
+            }
         }
     ],
     "奇洛伊卡": [
@@ -1394,6 +1474,22 @@
                 "res": 6,
                 "lck": 13,
                 "cha": 8
+            }
+        },
+        {
+            "chapter": "蕾达篇 第5章",
+            "startClass": "猎兵",
+            "baseLevel": 9,
+            "baseStats": {
+                "hp": 30,
+                "str": 10,
+                "mag": 3,
+                "spd": 14,
+                "dex": 13,
+                "def": 7,
+                "res": 4,
+                "lck": 9,
+                "cha": 5
             }
         }
     ],
@@ -1967,22 +2063,6 @@
             }
         },
         {
-            "chapter": "蕾达篇 第1章",
-            "startClass": "平民",
-            "baseLevel": 1,
-            "baseStats": {
-                "hp": 29,
-                "str": 12,
-                "mag": 4,
-                "spd": 5,
-                "dex": 6,
-                "def": 8,
-                "res": 3,
-                "lck": 6,
-                "cha": 6
-            }
-        },
-        {
             "chapter": "赛奥朵拉篇 第10章",
             "startClass": "重装步兵",
             "baseLevel": 28,
@@ -1996,6 +2076,22 @@
                 "res": 6,
                 "lck": 12,
                 "cha": 14
+            }
+        },
+        {
+            "chapter": "蕾达篇 第1章",
+            "startClass": "平民",
+            "baseLevel": 1,
+            "baseStats": {
+                "hp": 29,
+                "str": 12,
+                "mag": 4,
+                "spd": 5,
+                "dex": 6,
+                "def": 8,
+                "res": 3,
+                "lck": 6,
+                "cha": 6
             }
         }
     ],
