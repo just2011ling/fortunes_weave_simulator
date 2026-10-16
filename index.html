@@ -13,13 +13,13 @@
 <body>
   <div class="grain"></div>
   <header class="topbar">
-    <a class="brand" href="#simulation" aria-label="万缕千丝首页"><span>万缕千丝</span></a>
-    <nav class="main-nav" aria-label="主菜单"><button class="nav-item active" data-page="simulation">转职模拟</button><button class="nav-item" data-page="skills">习得特技</button></nav>
+    <a class="brand" href="#/simulation" aria-label="万缕千丝首页"><span>万缕千丝</span></a>
+    <nav class="main-nav" aria-label="主菜单"><button class="nav-item active" data-page="simulation">转职模拟</button><button class="nav-item" data-page="skills">习得特技</button><button class="nav-item" data-page="maps">地图模拟</button></nav>
     <span class="top-spacer top-note">数据持续更新中，如您发现错误，请联系B站闲云SS</span>
   </header>
 
   <main class="layout">
-    <aside class="sidebar">
+    <aside class="sidebar" id="characterSidebar">
       <div class="search-wrap"><span class="search-icon">⌕</span><input id="searchInput" type="search" placeholder="按名称搜索…" autocomplete="off"></div>
       <div class="roster-label"><span>可用角色</span><span id="shownCount">—</span></div>
       <div class="character-list" id="characterList" role="listbox" aria-label="选择角色"><div class="character-list-items"></div></div>
@@ -52,6 +52,28 @@
 
     <section class="workspace skills-page" id="skillsPage" hidden>
       <div class="skills-empty"><h1>习得特技</h1><p>这里将展示角色习得的特技。</p><span class="coming-soon">内容整理中</span></div>
+    </section>
+    <section class="workspace skills-page" id="mapsPage" hidden>
+      <section class="map-view" aria-label="地图模拟">
+        <div class="map-editor">
+          <div class="map-stage" id="mapStage">
+            <canvas id="mapCanvas" aria-label="可编辑地图，点击空白位置创建节点"></canvas>
+          </div>
+          <aside class="map-info" aria-label="节点备注">
+            <div class="map-info-heading" id="mapInfoTitle">节点信息</div>
+            <p id="mapInfoContent" class="map-info-content">选中地图节点后，这里会显示节点备注。</p>
+          </aside>
+          <aside class="map-tools" aria-label="节点编辑器">
+            <div class="map-tools-heading"><span>节点编辑</span><span id="nodeCount">0 个</span></div>
+            <p class="map-hint" id="mapHint">点击地图上的空白位置添加节点。</p>
+            <label class="map-field"><span>节点类型</span><select id="nodeTypeSelect" disabled></select></label>
+            <label class="map-field"><span>名称</span><input id="nodeNameInput" type="text" maxlength="30" placeholder="输入节点名称" disabled></label>
+            <label class="map-field"><span>备注</span><textarea id="nodeRemarkInput" rows="4" maxlength="500" placeholder="添加详细信息" disabled></textarea></label>
+            <button type="button" class="map-delete-button" id="deleteNode" disabled>删除选中节点</button>
+            <div class="map-legend"><span>点击空白处创建</span><span>点击节点可修改</span><span>节点保存在此浏览器</span></div>
+          </aside>
+        </div>
+      </section>
     </section>
   </main>
   <script src="app.js" defer></script>

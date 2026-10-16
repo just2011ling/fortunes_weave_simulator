@@ -6,7 +6,7 @@ const tiers = [
   { name: '最上级' },
   { name: '神将' },
 ];
-const statMeta = [['hp','HP'],['str','力量'],['mag','魔力'],['spd','速度'],['dex','技巧'],['def','守备'],['res','魔防'],['lck','幸运'],['cha','魅力']];
+const statMeta = [['hp','HP'],['str','力量'],['mag','魔力'],['spd','速度'],['dex','技巧'],['def','防守'],['res','魔防'],['lck','幸运'],['cha','魅力']];
 const mountTypesByClass = {
   '飞鸵兵': ['飞鸵'], '骑甲鸵兵': ['飞鸵'], '神鸵兵': ['飞鸵'],
   '天翼兵': ['天马', '飞马'], '圣天翼兵': ['天马', '飞马'],
@@ -20,6 +20,14 @@ const mountStatKeys = { HP: 'hp', 力: 'str', 魔: 'mag', 速: 'spd', 技: 'dex'
 let characters = [], classes = [], chapterCharacters = {}, mounts = [], selectedMount = null, selected = null, selectedCase = null, level = 1, jobRoute = [], page = 'simulation';
 const $ = id => document.getElementById(id);
 const classMap = new Map();
+const mapNodeTypes = [
+  { id: 'explore', name: '探索点', shape: 'square' },
+  { id: 'maze', name: '迷宫点', shape: 'triangle-down' },
+  { id: 'camp', name: '露营点', shape: 'triangle-up' },
+  { id: 'base', name: '据点', shape: 'diamond' },
+  { id: 'open', name: '空地', shape: 'circle' },
+];
+let mapNodes = [], selectedMapNodeId = null;
 
 async function init() {
   try {
@@ -32,6 +40,8 @@ async function init() {
     });
     classes.forEach(c => classMap.set(c.id, c));
     bind(); renderRoster();
+    syncPageFromRoute();
+    window.addEventListener('hashchange', syncPageFromRoute);
     selectCharacter(characters.find(c => chapterCharacters[c.name]?.length) || characters[0]);
   } catch (error) {
     $('simulationPage').innerHTML = `<div class="load-error"><span>✳</span><h2>资料暂时无法载入</h2><p>请通过本地网页服务器打开此页面。</p><small>${error.message}</small></div>`;
@@ -39,7 +49,7 @@ async function init() {
 }
 function bind() {
   $('searchInput').addEventListener('input', renderRoster);
-  document.querySelectorAll('.nav-item').forEach(button => button.addEventListener('click', () => setPage(button.dataset.page)));
+  document.querySelectorAll('.nav-item').forEach(button => button.addEventListener('click', () => navigateToPage(button.dataset.page)));
   $('levelDown').addEventListener('click', () => changeLevel(level - 1));
   $('levelUp').addEventListener('click', () => changeLevel(level + 1));
   $('levelSlider').addEventListener('input', e => changeLevel(Number(e.target.value)));
@@ -55,12 +65,170 @@ function bind() {
     selectedCase = cases[Number(e.target.value)] || null;
     resetRoute(true);
   });
+  initMapEditor();
   document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); $('searchInput').focus(); } });
 }
+function normalizePageRoute(hash = window.location.hash) {
+  const route = hash.replace(/^#\/?/, '').split(/[/?#]/)[0];
+  return ['simulation', 'skills', 'maps'].includes(route) ? route : 'simulation';
+}
+
+function navigateToPage(next) {
+  if (!['simulation', 'skills', 'maps'].includes(next)) return;
+  const route = `#/${next}`;
+  if (window.location.hash === route) {
+    setPage(next);
+    return;
+  }
+  window.location.hash = route;
+}
+
+function syncPageFromRoute() {
+  const route = normalizePageRoute();
+  if (window.location.hash !== `#/${route}`) {
+    window.history.replaceState(null, '', `#/${route}`);
+  }
+  setPage(route);
+}
+
 function setPage(next) {
   page = next;
-  $('simulationPage').hidden = page !== 'simulation'; $('skillsPage').hidden = page !== 'skills';
+  $('simulationPage').hidden = page !== 'simulation'; $('skillsPage').hidden = page !== 'skills'; $('mapsPage').hidden = page !== 'maps';
+  $('characterSidebar').hidden = page !== 'simulation';
+  document.querySelector('.layout').classList.toggle('single-page', page !== 'simulation');
   document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.page === page));
+  if (page === 'maps') requestAnimationFrame(resizeMapCanvas);
+}
+
+function initMapEditor() {
+  try { mapNodes = JSON.parse(localStorage.getItem('fortunes-weave-map-nodes') || '[]'); }
+  catch { mapNodes = []; }
+  if (!Array.isArray(mapNodes)) mapNodes = [];
+  const visibleNodes = mapNodes.filter(node => Number.isFinite(node.x) && Number.isFinite(node.y)
+    && node.x >= 12 && node.x <= 888 && node.y >= 12 && node.y <= 608);
+  if (visibleNodes.length !== mapNodes.length) {
+    mapNodes = visibleNodes;
+    saveMapNodes();
+  }
+  mapNodes.forEach(node => {
+    if (typeof node.name !== 'string') node.name = '';
+    if (typeof node.remark !== 'string') node.remark = '';
+  });
+  const canvas = $('mapCanvas');
+  canvas.addEventListener('pointerdown', handleMapPointer);
+  $('nodeTypeSelect').innerHTML = mapNodeTypes.map(type => `<option value="${type.id}">${type.name}</option>`).join('');
+  $('nodeTypeSelect').addEventListener('change', e => {
+    const node = mapNodes.find(item => item.id === selectedMapNodeId);
+    if (!node) return;
+    node.type = e.target.value;
+    saveMapNodes(); renderMapEditor();
+  });
+  $('nodeNameInput').addEventListener('input', e => updateSelectedNodeField('name', e.target.value));
+  $('nodeRemarkInput').addEventListener('input', e => updateSelectedNodeField('remark', e.target.value));
+  $('deleteNode').addEventListener('click', () => {
+    if (!selectedMapNodeId) return;
+    mapNodes = mapNodes.filter(node => node.id !== selectedMapNodeId);
+    selectedMapNodeId = null;
+    saveMapNodes(); renderMapEditor();
+  });
+  if ('ResizeObserver' in window) new ResizeObserver(resizeMapCanvas).observe($('mapStage'));
+  else window.addEventListener('resize', resizeMapCanvas);
+  renderMapEditor();
+}
+
+function updateSelectedNodeField(field, value) {
+  const node = mapNodes.find(item => item.id === selectedMapNodeId);
+  if (!node) return;
+  node[field] = value;
+  saveMapNodes();
+  renderMapEditor({ syncFields: false });
+}
+
+function saveMapNodes() {
+  try { localStorage.setItem('fortunes-weave-map-nodes', JSON.stringify(mapNodes)); }
+  catch { /* Keep the current editing session usable when browser storage is unavailable. */ }
+}
+
+function handleMapPointer(event) {
+  const canvas = $('mapCanvas');
+  const bounds = canvas.getBoundingClientRect();
+  const x = Math.max(40, Math.min(860, (event.clientX - bounds.left) / bounds.width * 900));
+  const y = Math.max(30, Math.min(565, (event.clientY - bounds.top) / bounds.height * 620));
+  const hit = [...mapNodes].reverse().find(node => Math.hypot(node.x - x, node.y - y) < 17);
+  if (hit) {
+    selectedMapNodeId = hit.id;
+  } else {
+    const node = { id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, x, y, type: 'explore', name: '', remark: '' };
+    mapNodes.push(node);
+    selectedMapNodeId = node.id;
+    saveMapNodes();
+  }
+  renderMapEditor();
+}
+
+function resizeMapCanvas() {
+  const canvas = $('mapCanvas');
+  if (!canvas) return;
+  const bounds = canvas.getBoundingClientRect();
+  if (!bounds.width || !bounds.height) return;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = Math.round(bounds.width * dpr);
+  canvas.height = Math.round(bounds.height * dpr);
+  const context = canvas.getContext('2d');
+  context.setTransform(canvas.width / 900, 0, 0, canvas.height / 620, 0, 0);
+  drawMap(context);
+}
+
+function renderMapEditor({ syncFields = true } = {}) {
+  const selectedNode = mapNodes.find(node => node.id === selectedMapNodeId);
+  $('nodeCount').textContent = `${mapNodes.length} 个`;
+  $('mapHint').textContent = selectedNode ? `已选中「${mapNodeTypes.find(type => type.id === selectedNode.type)?.name || '节点'}」。` : '点击地图上的空白位置添加节点。';
+  $('deleteNode').disabled = !selectedNode;
+  $('nodeTypeSelect').disabled = !selectedNode;
+  $('nodeNameInput').disabled = !selectedNode;
+  $('nodeRemarkInput').disabled = !selectedNode;
+  if (syncFields) {
+    $('nodeTypeSelect').value = selectedNode?.type || mapNodeTypes[0].id;
+    $('nodeNameInput').value = selectedNode?.name || '';
+    $('nodeRemarkInput').value = selectedNode?.remark || '';
+  }
+  $('mapInfoTitle').textContent = selectedNode?.name || '节点信息';
+  $('mapInfoContent').textContent = selectedNode
+    ? (selectedNode.remark || '该节点暂无备注。')
+    : '选中地图节点后，这里会显示节点备注。';
+  resizeMapCanvas();
+}
+
+function drawMap(ctx) {
+  ctx.clearRect(0, 0, 900, 620);
+  mapNodes.forEach(node => drawEditableNode(ctx, node, node.id === selectedMapNodeId));
+}
+
+function drawEditableNode(ctx, node, selectedNode) {
+  const type = mapNodeTypes.find(item => item.id === node.type) || mapNodeTypes[0];
+  const size = type.id === 'open' ? 5 : 10;
+  ctx.save(); ctx.translate(node.x, node.y);
+  if (selectedNode) {
+    ctx.beginPath(); ctx.arc(0, 0, 17, 0, Math.PI * 2); ctx.fillStyle = 'rgba(82,104,82,.16)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(0, 0, 17, 0, Math.PI * 2); ctx.strokeStyle = '#526852'; ctx.lineWidth = 1.4; ctx.stroke();
+  }
+  ctx.beginPath();
+  if (type.id === 'explore') ctx.rect(-size / 2, -size / 2, size, size);
+  else if (type.id === 'maze') { ctx.moveTo(-size / 2, -size / 3); ctx.lineTo(size / 2, -size / 3); ctx.lineTo(0, size / 2); ctx.closePath(); }
+  else if (type.id === 'camp') { ctx.moveTo(0, -size / 2); ctx.lineTo(size / 2, size / 3); ctx.lineTo(-size / 2, size / 3); ctx.closePath(); }
+  else if (type.id === 'base') { ctx.moveTo(0, -size / 2); ctx.lineTo(size / 2, 0); ctx.lineTo(0, size / 2); ctx.lineTo(-size / 2, 0); ctx.closePath(); }
+  else ctx.arc(0, 0, size / 2, 0, Math.PI * 2);
+  ctx.fillStyle = selectedNode ? '#526852' : '#fdfcf8'; ctx.strokeStyle = selectedNode ? '#fdfcf8' : '#526852';
+  ctx.lineWidth = selectedNode ? 2 : 1.8; ctx.shadowColor = 'rgba(255,255,255,.9)'; ctx.shadowBlur = 5; ctx.fill(); ctx.stroke();
+  if (node.name) {
+    ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0;
+    ctx.font = '12px "Noto Sans SC", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    const labelWidth = ctx.measureText(node.name).width;
+    const labelX = Math.max(labelWidth / 2 + 4 - node.x, Math.min(896 - labelWidth / 2 - node.x, 0));
+    ctx.lineWidth = 4; ctx.strokeStyle = '#fff'; ctx.strokeText(node.name, labelX, 16);
+    ctx.fillStyle = '#353a32'; ctx.fillText(node.name, labelX, 16);
+  }
+  ctx.restore();
 }
 function renderRoster() {
   const query = $('searchInput').value.trim().toLowerCase();
@@ -223,13 +391,31 @@ function renderRoute() {
   }));
 }
 function renderClassPicker() {
+  const container = $('classCategories');
+  if (container.dataset.ready === 'true') {
+    container.querySelectorAll('.job-option').forEach(button => {
+      const chosen = button.dataset.class === currentClass()?.id;
+      button.classList.toggle('chosen', chosen);
+      if (chosen) {
+        button.disabled = true;
+        button.setAttribute('aria-current', 'true');
+      } else {
+        button.disabled = false;
+        button.removeAttribute('aria-current');
+      }
+    });
+    return;
+  }
   const categoryMarkup = (title, options) => `<section class="class-category category-open"><header><div><span class="category-tier">${title}</span></div><span class="category-status">可选择</span></header><div class="job-options">${options.map(cls => `<button class="job-option ${currentClass()?.id === cls.id ? 'chosen' : ''}" data-class="${cls.id}" ${currentClass()?.id === cls.id ? 'disabled aria-current="true"' : ''}><span>${esc(cls.name)}</span>${cls.growthTotal ? `<small>成长 ${fmtSigned(cls.growthTotal)}</small>` : ''}</button>`).join('') || '<span class="no-jobs">暂无职业资料</span>'}</div></section>`;
   const basicClasses = classes.filter(cls => cls.tier === '基础' && ['平民', '贵族'].includes(cls.name));
-  $('classCategories').innerHTML = categoryMarkup('基础职业', basicClasses) + tiers.slice(1).map(tier => {
+  container.innerHTML = categoryMarkup('基础职业', basicClasses) + tiers.slice(1).map(tier => {
     const options = classes.filter(c => c.tier === tier.name);
     return categoryMarkup(`${tier.name}职业`, options);
   }).join('');
-  $('classCategories').querySelectorAll('.job-option:not(:disabled)').forEach(button => button.addEventListener('click', () => {
+  container.dataset.ready = 'true';
+  container.addEventListener('click', e => {
+    const button = e.target.closest('.job-option:not(:disabled)');
+    if (!button) return;
     const cls = classMap.get(button.dataset.class);
     if (!cls || cls.id === currentClass()?.id) return;
     const retainedRoute = jobRoute.filter(event => event.level <= level);
@@ -240,7 +426,7 @@ function renderClassPicker() {
     if (selectedMount && !(mountTypesByClass[cls.name] || []).includes(selectedMount.type)) selectedMount = null;
     jobRoute.push({ classId: cls.id, level, initial: false, leveled: false, mountName: selectedMount?.name || null });
     renderAll();
-  }));
+  });
 }
 function fmtSigned(n) { n = Number(n) || 0; return `${n > 0 ? '+' : ''}${n}`; }
 function esc(v) { return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
