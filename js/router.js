@@ -10,10 +10,6 @@ function routeFromHash(hash = window.location.hash) {
 function renderRoute(route) {
   $('simulationPage').hidden = route !== 'simulation';
   $('skillsPage').hidden = route !== 'skills';
-  const showCharacterSidebar = route === 'simulation' || route === 'skills';
-  $('characterSidebar').hidden = !showCharacterSidebar;
-  document.querySelector('.layout').classList.toggle('with-sidebar', showCharacterSidebar);
-
   document.querySelectorAll('.nav-item').forEach(button => {
     const active = button.dataset.page === route;
     button.classList.toggle('active', active);

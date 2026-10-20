@@ -23,14 +23,14 @@
   </header>
 
   <main class="layout">
-    <aside class="sidebar" id="characterSidebar">
-      <div class="search-wrap"><span class="search-icon">⌕</span><input id="searchInput" type="search" placeholder="按名称搜索…" autocomplete="off"></div>
-      <div class="roster-label"><span>可用角色</span><span id="shownCount">—</span></div>
-      <div class="character-list" id="characterList" role="listbox" aria-label="选择角色"><div class="character-list-items"></div></div>
-    </aside>
-
     <section class="workspace" id="simulationPage">
-      <div class="scenario-picker"><label for="scenarioSelect">加入章节</label><select id="scenarioSelect" aria-label="选择角色加入章节"></select></div>
+      <div class="scenario-picker">
+        <button class="character-picker-button" id="openCharacterPicker" type="button">选择角色</button>
+        <details class="character-filter-menu scenario-menu" id="scenarioMenu">
+          <summary id="scenarioMenuSummary">加入章节</summary>
+          <div class="character-filter-menu-panel scenario-menu-options" id="scenarioMenuOptions" role="radiogroup" aria-label="选择加入章节"></div>
+        </details>
+      </div>
       <section class="detail-card growth-card full-growth-card">
         <div class="detail-title"><div><h3><span id="growthCharacterName">—</span> · 成长率</h3></div><span class="detail-caption" id="growthTotalCaption">角色与当前职业合计</span></div>
         <div class="stats-grid full-stats-grid ability-grid" id="statsGrid"></div>
@@ -43,13 +43,17 @@
 
       <section class="detail-card route-card full-row-card">
           <div class="route-heading">
-            <div class="detail-title"><h3>转职路线</h3></div>
+            <div class="route-title-group">
+              <div class="detail-title"><h3>转职路线</h3></div>
+              <button id="resetRoute" class="reset-button" type="button" aria-label="重置转职路线" title="重置转职路线">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.64-6.36L3 8.25M3 3v5.25h5.25M12 7v5l3.25 2" /></svg>
+              </button>
+            </div>
             <div class="route-controls">
-              <button id="resetRoute" class="reset-button" type="button">重置</button>
               <div class="level-control">
                 <button id="levelDownFive" class="level-button level-step-button" aria-label="降低五级">−5</button>
                 <button id="levelDown" class="level-button" aria-label="降低等级">−</button>
-                <div class="level-readout"><span>当前等级</span><b id="levelValue">1</b></div>
+                <div class="level-readout"><span>Lv.</span><b id="levelValue">1</b></div>
                 <button id="levelUp" class="level-button" aria-label="提升等级">＋</button>
                 <button id="levelUpFive" class="level-button level-step-button" aria-label="提升五级">+5</button>
               </div>
@@ -71,6 +75,35 @@
         </header>
         <div class="job-picker-tabs" id="jobPickerTabs" role="tablist" aria-label="职业分类"></div>
         <div class="job-picker-panel" id="jobPickerPanel" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </dialog>
+
+    <dialog class="job-picker-dialog character-picker-dialog" id="characterPickerDialog" aria-labelledby="characterPickerTitle">
+      <div class="job-picker-dialog-content">
+        <header class="job-picker-dialog-header">
+          <div>
+            <span class="dialog-eyebrow">角色列表</span>
+            <h2 id="characterPickerTitle">选择角色</h2>
+          </div>
+          <button class="dialog-close" id="closeCharacterPicker" type="button" aria-label="关闭角色选择">×</button>
+        </header>
+        <div class="character-picker-filters">
+          <div class="character-filter-menu-wrap">
+            <span class="character-filter-label">性别</span>
+            <details class="character-filter-menu" id="genderFilterMenu">
+              <summary id="genderFilterSummary">全部</summary>
+              <div class="character-filter-menu-panel gender-filter-options" id="genderFilterOptions" role="radiogroup" aria-label="性别筛选"></div>
+            </details>
+          </div>
+          <div class="character-filter-menu-wrap">
+            <span class="character-filter-label">阵营</span>
+            <details class="character-filter-menu" id="factionFilterMenu">
+              <summary id="factionFilterSummary">全部阵营</summary>
+              <div class="character-filter-menu-panel faction-filter-options" id="factionFilterOptions" role="group" aria-label="阵营筛选"></div>
+            </details>
+          </div>
+        </div>
+        <div class="character-picker-list" id="characterPickerList" role="listbox" aria-label="所有角色"></div>
       </div>
     </dialog>
 

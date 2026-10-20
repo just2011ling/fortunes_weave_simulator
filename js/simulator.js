@@ -5,7 +5,6 @@ let characters = [];
 let classes = [];
 let chapterCharacters = {};
 let mounts = [];
-let selectedMount = null;
 let selected = null;
 let selectedCase = null;
 let level = 1;
@@ -15,6 +14,8 @@ let editingRouteIndex = null;
 let pickerMode = 'job';
 let pendingJobSelection = null;
 const classMap = new Map();
+const characterFilterStorageKey = 'fortunes-weave-character-filters';
+let characterFilters = { gender: '', factions: [] };
 
 export function initSimulator(data) {
   characters = data.characters;
@@ -23,13 +24,41 @@ export function initSimulator(data) {
   mounts = data.mounts;
   classes.forEach(job => classMap.set(job.id, job));
   initJobPicker();
+  initCharacterPicker();
   bindSimulator();
-  renderRoster();
   selectCharacter(characters.find(character => chapterCharacters[character.name]?.length) || characters[0]);
 }
 
 function bindSimulator() {
-  $('searchInput').addEventListener('input', renderRoster);
+  $('openCharacterPicker').addEventListener('click', () => $('characterPickerDialog').showModal());
+  $('closeCharacterPicker').addEventListener('click', closeCharacterPicker);
+  $('genderFilterOptions').addEventListener('click', event => {
+    const option = event.target.closest('[data-gender-filter]');
+    if (!option) return;
+    characterFilters.gender = option.dataset.genderFilter || '';
+    saveCharacterFilters();
+    renderCharacterPicker();
+    $('genderFilterMenu').open = false;
+  });
+  $('factionFilterOptions').addEventListener('change', event => {
+    const checkbox = event.target.closest('[data-faction-filter]');
+    if (!checkbox) return;
+    const faction = checkbox.dataset.factionFilter;
+    characterFilters.factions = checkbox.checked
+      ? [...new Set([...characterFilters.factions, faction])]
+      : characterFilters.factions.filter(value => value !== faction);
+    saveCharacterFilters();
+    renderCharacterPicker();
+  });
+  $('characterPickerList').addEventListener('click', event => {
+    const option = event.target.closest('[data-character-id]');
+    if (!option) return;
+    const character = characters.find(item => item.id === option.dataset.characterId);
+    if (character) selectCharacter(character);
+  });
+  $('characterPickerDialog').addEventListener('click', event => {
+    if (event.target === $('characterPickerDialog')) closeCharacterPicker();
+  });
   $('levelDown').addEventListener('click', () => changeLevel(level - 1));
   $('levelDownFive').addEventListener('click', () => changeLevel(level - 5));
   $('levelUp').addEventListener('click', () => changeLevel(level + 1));
@@ -42,12 +71,19 @@ function bindSimulator() {
     }
 
     const routeNode = event.target.closest('[data-route-index]');
-    if (routeNode) openJobPicker(Number(routeNode.dataset.routeIndex));
+    if (routeNode && !routeNode.disabled) openJobPicker(Number(routeNode.dataset.routeIndex));
   });
-  $('scenarioSelect').addEventListener('change', event => {
+  $('scenarioMenuOptions').addEventListener('click', event => {
+    const option = event.target.closest('[data-scenario-index]');
+    if (!option) return;
     const cases = chapterCharacters[selected?.name] || [];
-    selectedCase = cases[Number(event.target.value)] || null;
+    selectedCase = cases[Number(option.dataset.scenarioIndex)] || null;
+    renderScenarioPicker();
     resetRoute(true);
+    $('scenarioMenu').open = false;
+  });
+  $('scenarioMenu').addEventListener('click', event => {
+    if (event.target.closest('summary') && $('scenarioMenu').classList.contains('disabled')) event.preventDefault();
   });
   $('closeJobPicker').addEventListener('click', closeJobPicker);
   $('jobPickerDialog').addEventListener('close', () => {
@@ -62,25 +98,83 @@ function bindSimulator() {
   document.addEventListener('keydown', event => {
     if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
       event.preventDefault();
-      $('searchInput').focus();
+      $('openCharacterPicker').focus();
     }
   });
 }
 
-function renderRoster() {
-  const query = $('searchInput').value.trim().toLowerCase();
-  const list = characters.filter(c => c.name.toLowerCase().includes(query));
-  $('shownCount').textContent = list.length;
-  const items = $('characterList').querySelector('.character-list-items');
-  items.innerHTML = list.map(c => `<button class="character-item ${selected?.id === c.id ? 'selected' : ''}" role="option" aria-selected="${selected?.id === c.id}" data-id="${c.id}"><span class="avatar">${esc(c.name.slice(0,1))}</span><span class="character-copy"><b>${esc(c.name)}</b></span><span class="roster-arrow">↗</span></button>`).join('') || '<div class="empty-list">没有找到这位角色</div>';
-  items.querySelectorAll('.character-item').forEach(btn => btn.addEventListener('click', () => selectCharacter(characters.find(c => c.id === btn.dataset.id))));
+function initCharacterPicker() {
+  const factionOptions = [...new Set(characters.map(character => character.faction).filter(Boolean))].sort();
+  const genderOptions = [...new Set(characters.map(character => character.sex).filter(value => value && value !== '男/女'))].sort();
+  try {
+    const stored = JSON.parse(localStorage.getItem(characterFilterStorageKey) || '{}');
+    characterFilters = {
+      gender: genderOptions.includes(stored.gender) ? stored.gender : '',
+      factions: Array.isArray(stored.factions) ? stored.factions.filter(value => factionOptions.includes(value)) : [],
+    };
+  } catch {
+    characterFilters = { gender: '', factions: [] };
+  }
+  $('genderFilterOptions').innerHTML = [
+    `<button type="button" class="character-filter-option" data-gender-filter="" role="radio">全部</button>`,
+    ...genderOptions.map(value => `<button type="button" class="character-filter-option" data-gender-filter="${esc(value)}" role="radio">${esc(value)}</button>`),
+  ].join('');
+  $('factionFilterOptions').innerHTML = factionOptions.map(value => `
+    <label class="faction-filter-option"><input type="checkbox" data-faction-filter="${esc(value)}"><span>${esc(value)}</span></label>`).join('');
+  renderCharacterPicker();
 }
+
+function renderCharacterPicker() {
+  const genderSummary = characterFilters.gender || '全部';
+  $('genderFilterSummary').textContent = genderSummary;
+  $('genderFilterOptions').querySelectorAll('[data-gender-filter]').forEach(option => {
+    const active = option.dataset.genderFilter === characterFilters.gender;
+    option.setAttribute('aria-checked', String(active));
+    option.classList.toggle('active', active);
+  });
+  $('factionFilterOptions').querySelectorAll('[data-faction-filter]').forEach(option => {
+    option.checked = characterFilters.factions.includes(option.dataset.factionFilter);
+  });
+  $('factionFilterSummary').textContent = characterFilters.factions.length
+    ? `已选 ${characterFilters.factions.length} 个阵营`
+    : '全部阵营';
+
+  const list = characters.filter(character => {
+    const isAlwaysVisible = character.name === '救世主';
+    const matchesGender = !characterFilters.gender || isAlwaysVisible || character.sex === characterFilters.gender;
+    const matchesFaction = !characterFilters.factions.length || characterFilters.factions.includes(character.faction);
+    return matchesGender && matchesFaction;
+  });
+  $('characterPickerList').innerHTML = list.map(character => `
+    <button class="character-picker-option ${selected?.id === character.id ? 'selected' : ''}" type="button"
+      role="option" aria-selected="${selected?.id === character.id}" data-character-id="${esc(character.id)}">
+      <b>${esc(character.name)}</b><small>${esc(character.sex || '性别未知')} · ${esc(character.faction || '无 faction')}</small>
+    </button>`).join('') || '<p class="character-picker-empty">没有符合筛选条件的角色。</p>';
+}
+
+function saveCharacterFilters() {
+  try {
+    localStorage.setItem(characterFilterStorageKey, JSON.stringify(characterFilters));
+  } catch {
+    // Storage may be unavailable in private browsing; filtering still works in memory.
+  }
+}
+
+function closeCharacterPicker() {
+  const dialog = $('characterPickerDialog');
+  if (dialog.open) dialog.close();
+}
+
 function selectCharacter(character) {
   selected = character;
   selectedCase = (chapterCharacters[character.name] || [])[0] || null;
   renderScenarioPicker();
   resetRoute(true);
-  renderRoster(); renderAll();
+  $('openCharacterPicker').textContent = character.name;
+  $('openCharacterPicker').setAttribute('aria-label', `选择角色：${character.name}`);
+  renderCharacterPicker();
+  closeCharacterPicker();
+  renderAll();
 }
 
 function initJobPicker() {
@@ -135,7 +229,8 @@ function renderJobPicker() {
     $('jobPickerTabs').hidden = true;
     $('jobPickerPanel').setAttribute('aria-labelledby', 'jobPickerTitle');
     const job = pendingJobSelection?.job || currentClass();
-    renderMountOptions(job, pendingJobSelection?.preferredMount || selectedMount);
+    const preferredMount = pendingJobSelection ? pendingJobSelection.preferredMount : currentMount();
+    renderMountOptions(job, preferredMount);
     return;
   }
 
@@ -187,31 +282,32 @@ function closeJobPicker() {
 
 function chooseJob(job) {
   const routeIndex = editingRouteIndex;
-  if (routeIndex !== null && jobRoute[routeIndex]?.classId === job.id) return closeJobPicker();
+  let sameJob = routeIndex !== null && jobRoute[routeIndex]?.classId === job.id;
   if (routeIndex === null) {
     const lastEvent = [...jobRoute].filter(event => event.level <= level).at(-1);
-    if (lastEvent?.classId === job.id) return closeJobPicker();
+    sameJob = lastEvent?.classId === job.id;
   }
   const compatibleTypes = mountTypesByClass[job.name] || [];
   const compatible = mounts.filter(mount => compatibleTypes.includes(mount.type));
   if (compatible.length) {
-    const candidate = routeIndex === null ? selectedMount : mounts.find(mount => mount.name === jobRoute[routeIndex]?.mountName);
-    pendingJobSelection = { job, routeIndex, preferredMount: compatible.includes(candidate) ? candidate : null };
+    const targetEntry = routeIndex === null ? currentEntry() : jobRoute[routeIndex];
+    const preferredMount = mounts.find(mount => mount.name === targetEntry?.mountName) || null;
+    pendingJobSelection = { job, routeIndex, sameJob, preferredMount: compatible.includes(preferredMount) ? preferredMount : null };
     pickerMode = 'mount';
     renderJobPicker();
     return;
   }
+  if (sameJob) return closeJobPicker();
   applyJobSelection(job, routeIndex, null);
 }
 
 function applyJobSelection(job, routeIndex, mount) {
-  selectedMount = mount;
   if (routeIndex !== null) {
     const routeEntry = jobRoute[routeIndex];
     if (!routeEntry) return closeJobPicker();
     jobRoute = jobRoute.slice(0, routeIndex + 1);
     routeEntry.classId = job.id;
-    routeEntry.mountName = selectedMount?.name || null;
+    routeEntry.mountName = mount?.name || null;
     level = routeEntry.level;
   } else {
     const retainedRoute = jobRoute.filter(event => event.level <= level);
@@ -223,7 +319,7 @@ function applyJobSelection(job, routeIndex, mount) {
       level,
       initial: false,
       leveled: false,
-      mountName: selectedMount?.name || null,
+      mountName: mount?.name || null,
     });
   }
 
@@ -234,21 +330,38 @@ function applyJobSelection(job, routeIndex, mount) {
 function renderMountOptions(job, preferredMount) {
   const compatibleTypes = mountTypesByClass[job?.name] || [];
   const compatible = mounts.filter(mount => compatibleTypes.includes(mount.type));
+  const availabilityNotes = mountAvailabilityNotes(compatibleTypes);
   $('jobPickerPanel').innerHTML = `<div class="job-picker-options">
     <button class="job-option mount-option ${preferredMount ? '' : 'selected'}" type="button" data-mount-choice=""><span>无配属</span></button>
     ${compatible.map(mount => `<button class="job-option mount-option ${preferredMount === mount ? 'selected' : ''}" type="button" data-mount-choice="${esc(mount.name)}"><span class="mount-option-name">${esc(mount.name)}</span><small class="mount-option-growth">成长率：${esc(mount.growth || '无')}</small></button>`).join('')}
-  </div>`;
+  </div>${availabilityNotes.length ? `<div class="mount-availability-notes">${availabilityNotes.map(note => `<p>${esc(note)}</p>`).join('')}</div>` : ''}`;
+}
+
+function mountAvailabilityNotes(compatibleTypes) {
+  const notes = [];
+  if (compatibleTypes.includes('马')) notes.push('凯伊篇第一部无法获取黑马。');
+  if (compatibleTypes.includes('天马') || compatibleTypes.includes('飞马')) notes.push('凯伊篇第一部无法获取红圣飞马。');
+  if (compatibleTypes.includes('飞龙')) notes.push('凯伊篇第一部只能获取野生巴乌。');
+  return notes;
 }
 
 function chooseMount(mountName) {
   const mount = mounts.find(item => item.name === mountName) || null;
   if (pendingJobSelection) {
+    if (pendingJobSelection.sameJob) {
+      const targetEntry = pendingJobSelection.routeIndex === null
+        ? currentEntry()
+        : jobRoute[pendingJobSelection.routeIndex];
+      if (targetEntry) targetEntry.mountName = mount?.name || null;
+      closeJobPicker();
+      renderAll();
+      return;
+    }
     applyJobSelection(pendingJobSelection.job, pendingJobSelection.routeIndex, mount);
     return;
   }
-  selectedMount = mount;
   const activeEntry = currentEntry();
-  if (activeEntry) activeEntry.mountName = selectedMount?.name || null;
+  if (activeEntry) activeEntry.mountName = mount?.name || null;
   closeJobPicker();
   renderAll();
 }
@@ -258,11 +371,15 @@ function profileLevel() { return Math.max(1, Number(selectedCase?.baseLevel) || 
 function profileStats() { return selectedCase?.baseStats || null; }
 function renderScenarioPicker() {
   const cases = chapterCharacters[selected?.name] || [];
-  const picker = $('scenarioSelect');
-  picker.innerHTML = cases.length
-    ? cases.map((item, index) => `<option value="${index}" ${item === selectedCase ? 'selected' : ''}>${esc(item.chapter || `情况 ${index + 1}`)} · Lv.${Number(item.baseLevel) || 1} ${esc(item.startClass || '')}</option>`).join('')
-    : '<option value="">暂无章节数据</option>';
-  picker.disabled = cases.length < 2;
+  const selectedIndex = cases.indexOf(selectedCase);
+  const chosen = cases[selectedIndex];
+  $('scenarioMenu').classList.toggle('disabled', cases.length < 2);
+  $('scenarioMenuSummary').textContent = chosen
+    ? `${chosen.chapter || `情况 ${selectedIndex + 1}`} · Lv.${Number(chosen.baseLevel) || 1} ${chosen.startClass || ''}`
+    : '暂无章节数据';
+  $('scenarioMenuOptions').innerHTML = cases.length
+    ? cases.map((item, index) => `<button type="button" class="character-filter-option ${item === selectedCase ? 'active' : ''}" data-scenario-index="${index}" role="radio" aria-checked="${item === selectedCase}">${esc(item.chapter || `情况 ${index + 1}`)} · Lv.${Number(item.baseLevel) || 1} ${esc(item.startClass || '')}</button>`).join('')
+    : '<p class="character-picker-empty">暂无章节数据。</p>';
 }
 function defaultMountForSelection() {
   const startClass = profileClassName();
@@ -273,9 +390,9 @@ function defaultMountForSelection() {
 }
 function resetRoute(useDefaultMount = false) {
   const originalClass = classes.find(c => c.name === profileClassName()) || classes.find(c => c.name === '平民') || classes.find(c => c.name === '贵族');
-  selectedMount = useDefaultMount ? defaultMountForSelection() : null;
+  const defaultMount = useDefaultMount ? defaultMountForSelection() : null;
   level = Math.min(99, profileLevel());
-  jobRoute = [{ classId: originalClass?.id || null, level, initial: true, leveled: true, mountName: selectedMount?.name || null }];
+  jobRoute = [{ classId: originalClass?.id || null, level, initial: true, leveled: true, mountName: defaultMount?.name || null }];
   renderAll();
 }
 function currentMinLevel() {
@@ -298,16 +415,21 @@ function renderAll() {
   $('levelValue').textContent = level;
   $('levelDown').disabled = level <= currentMinLevel(); $('levelUp').disabled = level >= 99;
   $('levelDownFive').disabled = level <= currentMinLevel(); $('levelUpFive').disabled = level >= 99;
-  renderMountPicker(); renderGrowth(); renderAbilities(); renderRoute();
+  syncCurrentMount(); renderGrowth(); renderAbilities(); renderRoute();
 }
-function renderMountPicker() {
+function syncCurrentMount() {
   const types = mountTypesByClass[currentClass()?.name] || [];
-  if (!selectedMount || !types.includes(selectedMount.type)) selectedMount = null;
-  const activeEntry = currentEntry();
-  if (activeEntry) activeEntry.mountName = selectedMount?.name || null;
+  const entry = currentEntry();
+  const mount = mounts.find(item => item.name === entry?.mountName) || null;
+  if (mount && !types.includes(mount.type)) entry.mountName = null;
+}
+function currentMount() {
+  const mountName = currentEntry()?.mountName;
+  return mounts.find(mount => mount.name === mountName) || null;
 }
 function renderGrowth() {
   const job = currentClass();
+  const mount = currentMount();
   $('growthCharacterName').textContent = selected.name;
   $('growthTotalCaption').hidden = ['平民', '贵族'].includes(job?.name);
   $('statsGrid').innerHTML = statMeta.map(([key,label]) => {
@@ -315,7 +437,7 @@ function renderGrowth() {
     const bonus = job?.name === '战车兵'
       ? level >= 45 ? tankGrowthBonus[key] : level >= 35 ? tankMidLevelGrowthBonus[key] : 0
       : 0;
-    const total = (Number(selected.growth?.[key]) || 0) + (Number(job?.growth?.[key]) || 0) + bonus + (Number(selectedMount?.growthStats?.[key]) || 0) * mountGrowthMultiplier;
+    const total = (Number(selected.growth?.[key]) || 0) + (Number(job?.growth?.[key]) || 0) + bonus + (Number(mount?.growthStats?.[key]) || 0) * mountGrowthMultiplier;
     return `<div class="ability-stat"><span>${label}</span><b>${fmtSigned(total)}%</b></div>`;
   }).join('');
 }
@@ -348,31 +470,27 @@ function expectedStat(key) {
     value += (Number(next?.baseStats?.[key]) || 0) - (Number(previous?.baseStats?.[key]) || 0);
     previous = next || previous;
   }
-  return value + (Number(selectedMount?.bonusStats?.[key]) || 0);
+  return value + (Number(currentMount()?.bonusStats?.[key]) || 0);
 }
 function growthAt(key, gainedLevel, charGrowth) {
-  const active = classAtLevel(gainedLevel);
+  const activeEntry = entryAtLevel(gainedLevel);
+  const active = classMap.get(activeEntry?.classId) || classes.find(c => c.name === profileClassName());
+  const mount = mounts.find(item => item.name === activeEntry?.mountName) || null;
   const mountGrowthMultiplier = active?.name === '战车兵' ? 2 : 1;
   const bonus = active?.name === '战车兵'
     ? gainedLevel >= 45 ? tankGrowthBonus[key] : gainedLevel >= 35 ? tankMidLevelGrowthBonus[key] : 0
     : 0;
-  return (charGrowth + (Number(active?.growth?.[key]) || 0) + bonus + (Number(selectedMount?.growthStats?.[key]) || 0) * mountGrowthMultiplier) / 100;
+  return (charGrowth + (Number(active?.growth?.[key]) || 0) + bonus + (Number(mount?.growthStats?.[key]) || 0) * mountGrowthMultiplier) / 100;
 }
-function classAtLevel(gainedLevel) {
-  const event = [...jobRoute].reverse().find(item => item.level < gainedLevel);
-  return classMap.get(event?.classId) || classes.find(c => c.name === profileClassName());
-}
+function entryAtLevel(gainedLevel) { return [...jobRoute].reverse().find(item => item.level < gainedLevel) || jobRoute[0]; }
 function renderRoute() {
-  const activeEntry = currentEntry();
   const routeMarkup = jobRoute.map((entry, index) => {
     const job = classMap.get(entry.classId);
-    const active = activeEntry === entry;
-    const mountLabel = entry.mountName
-      ? `<small class="route-mount-name">${esc(entry.mountName)}</small>`
-      : '';
+    const initial = entry.initial;
+    const mountLabel = `<small class="route-mount-name">${entry.mountName ? esc(entry.mountName) : '&nbsp;'}</small>`;
     return `
-      <button type="button" class="route-step ${active ? 'has-job' : ''}"
-        data-route-index="${index}" title="点击重新选择职业">
+      <button type="button" class="route-step" ${initial ? 'disabled aria-disabled="true"' : ''}
+        data-route-index="${index}" title="${initial ? '初始职业不可更改' : '点击重新选择职业'}">
         <span class="route-step-heading">
           <span class="route-dot" aria-hidden="true"></span>
           <span class="route-tier">${esc(job?.tier || '基础')}</span>
