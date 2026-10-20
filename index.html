@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="styles/base.css" />
   <link rel="stylesheet" href="styles/layout.css" />
   <link rel="stylesheet" href="styles/simulator.css" />
+  <link rel="stylesheet" href="styles/skills.css" />
   <link rel="stylesheet" href="styles/responsive.css" />
 </head>
 <body>
@@ -108,8 +109,80 @@
     </dialog>
 
     <section class="workspace skills-page" id="skillsPage" hidden>
-      <div class="skills-empty"><h1>凹点辅助</h1><p>这里将提供凹点培养相关的辅助信息。</p><span class="coming-soon">内容整理中</span></div>
+      <section class="detail-card skills-card">
+        <div class="skills-toolbar">
+          <div class="scenario-picker skills-character-row">
+            <button class="character-picker-button" id="skillsCharacterButton" type="button">选择角色</button>
+          </div>
+          <div class="skills-toolbar-actions">
+            <button class="primary-button" id="addSkillRecord" type="button" disabled>新增记录</button>
+            <button class="secondary-button" id="inferBestJob" type="button" disabled>推导</button>
+          </div>
+        </div>
+      </section>
+      <section class="detail-card random-inference-card">
+        <div class="inference-heading">
+          <h2>随机数推断</h2>
+          <button class="skill-reset-button" id="resetSkillRecords" type="button" disabled>重置</button>
+        </div>
+        <div class="random-inference-grid" id="randomInferenceGrid"></div>
+      </section>
+      <section class="detail-card skills-record-card">
+        <div class="detail-title"><h2>凹点记录</h2></div>
+        <div class="skills-record-list" id="skillsRecordList" aria-live="polite">
+          <p class="skills-record-empty">选择角色后，添加凹点记录。</p>
+        </div>
+      </section>
     </section>
+
+    <dialog class="job-picker-dialog skills-dialog" id="skillsCharacterDialog" aria-labelledby="skillsCharacterTitle">
+      <div class="job-picker-dialog-content">
+        <header class="job-picker-dialog-header">
+          <div><span class="dialog-eyebrow">角色列表</span><h2 id="skillsCharacterTitle">选择角色</h2></div>
+          <button class="dialog-close" id="closeSkillsCharacter" type="button" aria-label="关闭角色选择">×</button>
+        </header>
+        <div class="skills-character-list" id="skillsCharacterList" role="listbox" aria-label="所有角色"></div>
+      </div>
+    </dialog>
+
+    <dialog class="job-picker-dialog skills-dialog" id="skillRecordDialog" aria-labelledby="skillRecordTitle">
+      <form class="job-picker-dialog-content skill-record-form" id="skillRecordForm">
+        <header class="job-picker-dialog-header">
+          <div><span class="dialog-eyebrow">凹点辅助</span><h2 id="skillRecordTitle">新增记录</h2></div>
+          <button class="dialog-close" id="closeSkillRecord" type="button" aria-label="关闭新增记录">×</button>
+        </header>
+        <div class="skill-record-job-row">
+          <span>职业</span>
+          <button class="character-picker-button" id="chooseSkillJob" type="button">选择职业</button>
+          <b id="skillRecordJobName">平民</b>
+        </div>
+        <fieldset class="skill-stat-grid" id="skillStatGrid">
+          <legend>选择成长属性</legend>
+        </fieldset>
+        <button class="primary-button skill-record-save" type="submit">保存</button>
+      </form>
+    </dialog>
+
+    <dialog class="job-picker-dialog skills-dialog" id="skillsJobDialog" aria-labelledby="skillsJobTitle">
+      <div class="job-picker-dialog-content">
+        <header class="job-picker-dialog-header">
+          <div><span class="dialog-eyebrow">职业列表</span><h2 id="skillsJobTitle">选择职业</h2></div>
+          <button class="dialog-close" id="closeSkillsJob" type="button" aria-label="关闭职业选择">×</button>
+        </header>
+        <div class="job-picker-tabs" id="skillsJobTabs" role="tablist" aria-label="职业分类"></div>
+        <div class="job-picker-panel" id="skillsJobPanel" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </dialog>
+
+    <dialog class="job-picker-dialog skills-dialog inference-result-dialog" id="inferenceResultDialog" aria-labelledby="inferenceResultTitle">
+      <div class="job-picker-dialog-content">
+        <header class="job-picker-dialog-header">
+          <div><span class="dialog-eyebrow">职业推导</span><h2 id="inferenceResultTitle">最适合当前随机数的职业</h2></div>
+          <button class="dialog-close" id="closeInferenceResult" type="button" aria-label="关闭推导结果">×</button>
+        </header>
+        <div class="inference-result-list" id="inferenceResultList"></div>
+      </div>
+    </dialog>
   </main>
   <script type="module" src="app.js"></script>
 </body>

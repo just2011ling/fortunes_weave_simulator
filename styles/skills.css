@@ -1,0 +1,330 @@
+.skills-page {
+  min-height: calc(100vh - var(--header-height));
+}
+
+.skills-card {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.random-inference-card,
+.skills-record-card {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.7rem;
+}
+
+.inference-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.inference-heading h2 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.skill-reset-button {
+  min-height: 1.9rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--line);
+  background: var(--surface-raised);
+  color: var(--muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.skill-reset-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.skills-page > .detail-card > .detail-title {
+  min-height: 1.5rem;
+}
+
+.skills-page > .detail-card > .detail-title h2 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.random-inference-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(5, minmax(2.25rem, auto));
+  gap: 0.35rem 0.55rem;
+}
+
+.inference-stat {
+  display: grid;
+  grid-template-columns: minmax(2.5rem, auto) minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.25rem 0.45rem;
+  border: 1px solid var(--line);
+  background: var(--surface-raised);
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+
+.inference-stat b {
+  color: var(--green);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: right;
+}
+
+.inference-stat-label {
+  display: grid;
+  gap: 0.08rem;
+}
+
+.skills-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.skills-toolbar-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.4rem;
+}
+
+.skills-character-row {
+  min-width: 0;
+  margin: 0;
+}
+
+.primary-button {
+  min-height: 2.5rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--green);
+  background: var(--green);
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.primary-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.secondary-button {
+  min-height: 2.5rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--line-strong, var(--line));
+  background: var(--surface-raised);
+  color: var(--green);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.secondary-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.skills-record-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.skills-record-empty {
+  margin: 0;
+  padding: 1rem 0.75rem;
+  border: 1px dashed var(--line);
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.skills-record-heading {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.skills-record-item {
+  padding: 0.85rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.skills-record-item header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.skills-record-item header span {
+  color: var(--green);
+}
+
+.skills-record-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.skills-record-actions button {
+  min-height: 2rem;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--line);
+  background: var(--surface-raised);
+  color: var(--muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.skills-record-actions button:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.skills-record-item p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.7rem 0 0;
+}
+
+.skill-record-tag {
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--line);
+  background: var(--green-soft);
+  color: var(--green);
+  font-size: 0.8rem;
+}
+
+.skills-dialog {
+  width: min(34rem, calc(100vw - 1.5rem));
+  height: min(38rem, calc(100dvh - 1.5rem));
+}
+
+.skills-character-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 9rem), 1fr));
+  align-content: start;
+  gap: 0.45rem;
+  min-height: 0;
+  margin-top: 0.75rem;
+  overflow-y: auto;
+}
+
+.skill-record-form {
+  gap: 1rem;
+  overflow-y: auto;
+}
+
+.skill-record-job-row {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.skill-record-job-row .character-picker-button {
+  max-width: none;
+}
+
+.skill-record-job-row b {
+  overflow: hidden;
+  color: var(--ink);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.skill-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(5, minmax(2.8rem, auto));
+  gap: 0.45rem 0.75rem;
+  margin: 0;
+  padding: 0.65rem;
+  border: 1px solid var(--line);
+}
+
+.skill-stat-grid legend {
+  padding: 0 0.35rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.skill-stat-option {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--line);
+  background: var(--surface-raised);
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+
+.skill-stat-option input {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  accent-color: var(--green);
+}
+
+.skill-record-save {
+  justify-self: center;
+  min-width: 7rem;
+}
+
+.inference-result-list {
+  display: grid;
+  align-content: start;
+  gap: 0.55rem;
+  min-height: 0;
+  margin-top: 0.8rem;
+  overflow-y: auto;
+}
+
+.inference-result-summary {
+  margin: 0 0 0.3rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.inference-result-item {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--line);
+  background: var(--surface-raised);
+}
+
+.inference-result-item b {
+  color: var(--green);
+  font-size: 0.95rem;
+}
+
+.inference-result-item span {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+@media (min-width: 40rem) {
+  .skills-card {
+    padding: 1.2rem;
+  }
+
+  .skill-stat-grid {
+    gap: 0.6rem 1rem;
+    padding: 0.9rem;
+  }
+}
