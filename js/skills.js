@@ -14,6 +14,9 @@ let editingRecordIndex = null;
 const recordsByCharacter = new Map();
 // 本地存储中保存所选角色 id 和所有角色的凹点记录。
 const skillsStorageKey = 'fortunes-weave-skill-assist';
+// 与转职模拟共用的角色筛选条件存储键和当前筛选状态。
+const characterFilterStorageKey = 'fortunes-weave-character-filters';
+let characterFilters = { gender: '', factions: [] };
 // 凹点辅助只开放基础至上级职业。
 const supportedTiers = tiers.slice(0, tiers.findIndex(tier => tier.name === '上级') + 1);
 
@@ -23,6 +26,7 @@ export function initSkillAssist(data) {
   classes = data.classes;
   selectedJob = classes.find(job => job.name === '平民') || classes[0] || null;
   restoreSkillState();
+  restoreCharacterFilters();
   renderStats();
   renderInferenceFields();
   renderJobTabs();
@@ -48,6 +52,26 @@ function bindSkillAssist() {
   });
   $('skillsCharacterDialog').addEventListener('click', event => {
     if (event.target === $('skillsCharacterDialog')) $('skillsCharacterDialog').close();
+  });
+  $('skillsGenderFilterOptions').addEventListener('click', event => {
+    // option 是用户点击的性别筛选项。
+    const option = event.target.closest('[data-skills-gender-filter]');
+    if (!option) return;
+    characterFilters.gender = option.dataset.skillsGenderFilter || '';
+    saveCharacterFilters();
+    renderSkillsCharacterPicker();
+    $('skillsGenderFilterMenu').open = false;
+  });
+  $('skillsFactionFilterOptions').addEventListener('change', event => {
+    // checkbox 与 faction 分别是阵营复选框和其对应阵营名称。
+    const checkbox = event.target.closest('[data-skills-faction-filter]');
+    if (!checkbox) return;
+    const faction = checkbox.dataset.skillsFactionFilter;
+    characterFilters.factions = checkbox.checked
+      ? [...new Set([...characterFilters.factions, faction])]
+      : characterFilters.factions.filter(value => value !== faction);
+    saveCharacterFilters();
+    renderSkillsCharacterPicker();
   });
   $('addSkillRecord').addEventListener('click', openRecordDialog);
   $('inferBestJob').addEventListener('click', renderBestJobInference);
@@ -121,14 +145,72 @@ function bindSkillAssist() {
 
 /** 打开角色列表弹窗，并按角色资料生成可选项。 */
 function openCharacterPicker() {
-  // options 是当前所有角色的选择按钮列表。
-  const options = characters.map(character => `
+  restoreCharacterFilters();
+  renderSkillsCharacterPicker();
+  $('skillsCharacterDialog').showModal();
+}
+
+/** 从共享本地存储恢复转职模拟使用的性别和阵营筛选条件。 */
+function restoreCharacterFilters() {
+  try {
+    // storedFilters 是转职模拟角色弹窗保存的筛选状态。
+    const storedFilters = JSON.parse(localStorage.getItem(characterFilterStorageKey) || '{}');
+    const validGenders = [...new Set(characters.map(character => character.sex).filter(value => value && value !== '男/女'))];
+    const validFactions = [...new Set(characters.map(character => character.faction).filter(Boolean))];
+    characterFilters = {
+      gender: validGenders.includes(storedFilters.gender) ? storedFilters.gender : '',
+      factions: Array.isArray(storedFilters.factions) ? storedFilters.factions.filter(value => validFactions.includes(value)) : [],
+    };
+  } catch {
+    characterFilters = { gender: '', factions: [] };
+  }
+}
+
+/** 将凹点辅助中的筛选选择写回转职模拟共用的本地存储。 */
+function saveCharacterFilters() {
+  try {
+    localStorage.setItem(characterFilterStorageKey, JSON.stringify(characterFilters));
+  } catch {
+    // 本地存储不可用时，筛选仍在当前页面会话中有效。
+  }
+}
+
+/** 按性别和阵营筛选角色，并同步两个菜单的当前选中状态。 */
+function renderSkillsCharacterPicker() {
+  // genderOptions 排除男/女合并选项；救世主仍始终显示。
+  const genderOptions = [...new Set(characters.map(character => character.sex).filter(value => value && value !== '男/女'))].sort();
+  const factionOptions = [...new Set(characters.map(character => character.faction).filter(Boolean))].sort();
+  $('skillsGenderFilterOptions').innerHTML = [
+    '<button type="button" class="character-filter-option" data-skills-gender-filter="" role="radio">全部</button>',
+    ...genderOptions.map(value => `<button type="button" class="character-filter-option" data-skills-gender-filter="${esc(value)}" role="radio">${esc(value)}</button>`),
+  ].join('');
+  $('skillsFactionFilterOptions').innerHTML = factionOptions.map(value => `
+    <label class="faction-filter-option"><input type="checkbox" data-skills-faction-filter="${esc(value)}"><span>${esc(value)}</span></label>`).join('');
+  $('skillsGenderFilterSummary').textContent = characterFilters.gender || '全部';
+  $('skillsGenderFilterOptions').querySelectorAll('[data-skills-gender-filter]').forEach(option => {
+    // active 标记当前生效的性别选项。
+    const active = option.dataset.skillsGenderFilter === characterFilters.gender;
+    option.setAttribute('aria-checked', String(active));
+    option.classList.toggle('active', active);
+  });
+  $('skillsFactionFilterOptions').querySelectorAll('[data-skills-faction-filter]').forEach(option => {
+    option.checked = characterFilters.factions.includes(option.dataset.skillsFactionFilter);
+  });
+  $('skillsFactionFilterSummary').textContent = characterFilters.factions.length
+    ? `已选 ${characterFilters.factions.length} 个阵营`
+    : '全部阵营';
+  // list 只展示同时满足性别与阵营条件的角色。
+  const list = characters.filter(character => {
+    const isAlwaysVisible = character.name === '救世主';
+    const matchesGender = !characterFilters.gender || isAlwaysVisible || character.sex === characterFilters.gender;
+    const matchesFaction = !characterFilters.factions.length || characterFilters.factions.includes(character.faction);
+    return matchesGender && matchesFaction;
+  });
+  $('skillsCharacterList').innerHTML = list.map(character => `
     <button class="character-picker-option ${selectedCharacter?.id === character.id ? 'selected' : ''}" type="button"
       role="option" aria-selected="${selectedCharacter?.id === character.id}" data-character-id="${esc(character.id)}">
-      <b>${esc(character.name)}</b><small>${esc(character.sex || '性别未知')} · ${esc(character.faction || '无阵营')}</small>
-    </button>`).join('');
-  $('skillsCharacterList').innerHTML = options || '<p class="character-picker-empty">暂无角色资料。</p>';
-  $('skillsCharacterDialog').showModal();
+      <b>${esc(character.name)}</b><small>${esc(character.sex || '性别未知')} · ${esc(character.faction || '无 faction')}</small>
+    </button>`).join('') || '<p class="character-picker-empty">没有符合筛选条件的角色。</p>';
 }
 
 /** 从本地存储恢复上次选择的角色与各角色记录。 */
@@ -198,7 +280,7 @@ function renderStats() {
   }).join('')}`;
 }
 
-/** 展示九项属性推断区间的最大随机数。 */
+/** 展示九项属性推断出的随机数范围。 */
 function renderInferenceFields() {
   // positions 与凹点选择表单保持相同的两列五行布局。
   const positions = { hp: [1, 1], str: [1, 2], def: [2, 2], mag: [1, 3], res: [2, 3], spd: [1, 4], lck: [2, 4], dex: [1, 5], cha: [2, 5] };
@@ -206,13 +288,13 @@ function renderInferenceFields() {
   const records = selectedCharacter ? recordsByCharacter.get(selectedCharacter.id) || [] : [];
   const rangeByStat = inferRandomRanges(records);
   $('randomInferenceGrid').innerHTML = statMeta.map(([key, label]) => {
-    // column 和 row 标明属性格位置，rangeText 只显示推断区间的最大值。
+    // column 和 row 标明属性格位置，rangeText 显示推断区间的最小值与最大值。
     const [column, row] = positions[key];
     const range = records.length ? rangeByStat[key] : null;
-    const rangeText = !range ? '??' : range.min > range.max ? '无解' : `${range.max}`;
+    const rangeText = !range ? '??' : range.min > range.max ? '无解' : `${range.min}–${range.max}`;
     return `<label class="inference-stat" style="grid-column:${column};grid-row:${row}">
       <span class="inference-stat-label">${esc(label)}</span>
-      <b aria-label="${esc(label)}随机数最大值">${rangeText}</b>
+      <b aria-label="${esc(label)}随机数范围">${rangeText}</b>
     </label>`;
   }).join('');
 }

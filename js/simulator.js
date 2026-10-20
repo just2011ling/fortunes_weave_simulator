@@ -47,7 +47,7 @@ export function initSimulator(data) {
 
 /** 为角色、章节、等级、路线和弹窗控件绑定交互事件。 */
 function bindSimulator() {
-  $('openCharacterPicker').addEventListener('click', () => $('characterPickerDialog').showModal());
+  $('openCharacterPicker').addEventListener('click', openCharacterPicker);
   $('closeCharacterPicker').addEventListener('click', closeCharacterPicker);
   $('genderFilterOptions').addEventListener('click', event => {
     // option 是用户点击的性别筛选项。
@@ -123,6 +123,24 @@ function bindSimulator() {
       $('openCharacterPicker').focus();
     }
   });
+}
+
+/** 打开角色弹窗前同步凹点辅助可能更新过的共享筛选条件。 */
+function openCharacterPicker() {
+  try {
+    // stored 保存另一个页面最近使用的性别和阵营筛选值。
+    const stored = JSON.parse(localStorage.getItem(characterFilterStorageKey) || '{}');
+    const validGenders = [...new Set(characters.map(character => character.sex).filter(value => value && value !== '男/女'))];
+    const validFactions = [...new Set(characters.map(character => character.faction).filter(Boolean))];
+    characterFilters = {
+      gender: validGenders.includes(stored.gender) ? stored.gender : '',
+      factions: Array.isArray(stored.factions) ? stored.factions.filter(value => validFactions.includes(value)) : [],
+    };
+  } catch {
+    characterFilters = { gender: '', factions: [] };
+  }
+  renderCharacterPicker();
+  $('characterPickerDialog').showModal();
 }
 
 /** 读取已保存的筛选条件并创建角色筛选菜单。 */

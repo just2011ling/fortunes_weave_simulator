@@ -141,6 +141,22 @@
           <div><span class="dialog-eyebrow">角色列表</span><h2 id="skillsCharacterTitle">选择角色</h2></div>
           <button class="dialog-close" id="closeSkillsCharacter" type="button" aria-label="关闭角色选择">×</button>
         </header>
+        <div class="character-picker-filters">
+          <div class="character-filter-menu-wrap">
+            <span class="character-filter-label">性别</span>
+            <details class="character-filter-menu" id="skillsGenderFilterMenu">
+              <summary id="skillsGenderFilterSummary">全部</summary>
+              <div class="character-filter-menu-panel gender-filter-options" id="skillsGenderFilterOptions" role="radiogroup" aria-label="性别筛选"></div>
+            </details>
+          </div>
+          <div class="character-filter-menu-wrap">
+            <span class="character-filter-label">阵营</span>
+            <details class="character-filter-menu" id="skillsFactionFilterMenu">
+              <summary id="skillsFactionFilterSummary">全部阵营</summary>
+              <div class="character-filter-menu-panel faction-filter-options" id="skillsFactionFilterOptions" role="group" aria-label="阵营筛选"></div>
+            </details>
+          </div>
+        </div>
         <div class="skills-character-list" id="skillsCharacterList" role="listbox" aria-label="所有角色"></div>
       </div>
     </dialog>
