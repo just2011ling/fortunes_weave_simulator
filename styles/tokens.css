@@ -1,0 +1,18 @@
+:root {
+  color-scheme: light;
+  --paper: #f5f2eb;
+  --surface: #fbf9f5;
+  --surface-raised: #fffefa;
+  --ink: #252821;
+  --muted: #85877e;
+  --subtle: #a4a398;
+  --line: #e5e1d8;
+  --green: #526852;
+  --green-soft: #e7ede3;
+  --gold: #bc9457;
+  --red: #ae725d;
+  --sans: "Noto Sans SC", system-ui, sans-serif;
+  --mono: "DM Mono", ui-monospace, monospace;
+  --page-gutter: 1rem;
+  --header-height: 5.5rem;
+}

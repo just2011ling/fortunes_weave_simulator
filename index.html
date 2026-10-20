@@ -2,20 +2,24 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#f5f2eb" />
+  <meta name="description" content="万缕千丝转职模拟器：查看成长率、能力值与职业路线，并使用凹点辅助。" />
   <title>万缕千丝 · 转职模拟</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/layout.css" />
+  <link rel="stylesheet" href="styles/simulator.css" />
+  <link rel="stylesheet" href="styles/responsive.css" />
 </head>
 <body>
   <div class="grain"></div>
   <header class="topbar">
     <a class="brand" href="#/simulation" aria-label="万缕千丝首页"><span>万缕千丝</span></a>
-    <nav class="main-nav" aria-label="主菜单"><button class="nav-item active" data-page="simulation">转职模拟</button><button class="nav-item" data-page="skills">习得特技</button><button class="nav-item" data-page="maps">地图模拟</button></nav>
-    <span class="top-spacer top-note">数据持续更新中，如您发现错误，请联系B站闲云SS</span>
+    <nav class="main-nav" aria-label="主菜单"><button class="nav-item active" data-page="simulation">转职模拟</button><button class="nav-item" data-page="skills">凹点辅助</button></nav>
   </header>
 
   <main class="layout">
@@ -38,44 +42,42 @@
       </section>
 
       <section class="detail-card route-card full-row-card">
-          <div class="detail-title"><div><h3>转职路线</h3></div></div>
+          <div class="route-heading">
+            <div class="detail-title"><h3>转职路线</h3></div>
+            <div class="route-controls">
+              <button id="resetRoute" class="reset-button" type="button">重置</button>
+              <div class="level-control">
+                <button id="levelDownFive" class="level-button level-step-button" aria-label="降低五级">−5</button>
+                <button id="levelDown" class="level-button" aria-label="降低等级">−</button>
+                <div class="level-readout"><span>当前等级</span><b id="levelValue">1</b></div>
+                <button id="levelUp" class="level-button" aria-label="提升等级">＋</button>
+                <button id="levelUpFive" class="level-button level-step-button" aria-label="提升五级">+5</button>
+              </div>
+            </div>
+          </div>
           <div class="route-list" id="routeList"></div>
       </section>
 
-      <section class="detail-card job-picker-card">
-        <div class="job-picker-heading"><div class="detail-title"><div><h3>转职模拟</h3></div><button id="resetRoute" class="reset-button" type="button">重置</button><label class="mount-picker" id="mountPicker" hidden><span>坐骑</span><select id="mountSelect" aria-label="配属坐骑"></select><span class="mount-stats" id="mountStats" hidden></span></label></div><div class="level-control"><button id="levelDown" class="level-button" aria-label="降低等级">−</button><div class="level-readout"><span>当前等级</span><b id="levelValue">1</b></div><button id="levelUp" class="level-button" aria-label="提升等级">＋</button></div></div>
-        <input id="levelSlider" class="level-slider" type="range" min="1" max="99" value="1" aria-label="当前等级">
-        <div class="range-labels"><span>Lv.1</span><span>Lv.99</span></div>
-        <div class="class-categories" id="classCategories"></div>
-      </section>
     </section>
 
-    <section class="workspace skills-page" id="skillsPage" hidden>
-      <div class="skills-empty"><h1>习得特技</h1><p>这里将展示角色习得的特技。</p><span class="coming-soon">内容整理中</span></div>
-    </section>
-    <section class="workspace skills-page" id="mapsPage" hidden>
-      <section class="map-view" aria-label="地图模拟">
-        <div class="map-editor">
-          <div class="map-stage" id="mapStage">
-            <canvas id="mapCanvas" aria-label="可编辑地图，点击空白位置创建节点"></canvas>
+    <dialog class="job-picker-dialog" id="jobPickerDialog" aria-labelledby="jobPickerTitle">
+      <div class="job-picker-dialog-content">
+        <header class="job-picker-dialog-header">
+          <div>
+            <span class="dialog-eyebrow">职业列表</span>
+            <h2 id="jobPickerTitle">选择职业</h2>
           </div>
-          <aside class="map-info" aria-label="节点备注">
-            <div class="map-info-heading" id="mapInfoTitle">节点信息</div>
-            <p id="mapInfoContent" class="map-info-content">选中地图节点后，这里会显示节点备注。</p>
-          </aside>
-          <aside class="map-tools" aria-label="节点编辑器">
-            <div class="map-tools-heading"><span>节点编辑</span><span id="nodeCount">0 个</span></div>
-            <p class="map-hint" id="mapHint">点击地图上的空白位置添加节点。</p>
-            <label class="map-field"><span>节点类型</span><select id="nodeTypeSelect" disabled></select></label>
-            <label class="map-field"><span>名称</span><input id="nodeNameInput" type="text" maxlength="30" placeholder="输入节点名称" disabled></label>
-            <label class="map-field"><span>备注</span><textarea id="nodeRemarkInput" rows="4" maxlength="500" placeholder="添加详细信息" disabled></textarea></label>
-            <button type="button" class="map-delete-button" id="deleteNode" disabled>删除选中节点</button>
-            <div class="map-legend"><span>点击空白处创建</span><span>点击节点可修改</span><span>节点保存在此浏览器</span></div>
-          </aside>
-        </div>
-      </section>
+          <button class="dialog-close" id="closeJobPicker" type="button" aria-label="关闭职业选择">×</button>
+        </header>
+        <div class="job-picker-tabs" id="jobPickerTabs" role="tablist" aria-label="职业分类"></div>
+        <div class="job-picker-panel" id="jobPickerPanel" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </dialog>
+
+    <section class="workspace skills-page" id="skillsPage" hidden>
+      <div class="skills-empty"><h1>凹点辅助</h1><p>这里将提供凹点培养相关的辅助信息。</p><span class="coming-soon">内容整理中</span></div>
     </section>
   </main>
-  <script src="app.js" defer></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
