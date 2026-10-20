@@ -11,12 +11,14 @@ const mountTypesByClass = {
   '飞鸵兵': ['飞鸵'], '骑甲鸵兵': ['飞鸵'], '神鸵兵': ['飞鸵'],
   '天翼兵': ['天马', '飞马'], '圣天翼兵': ['天马', '飞马'],
   '驭龙兵': ['飞龙'], '飞龙将领': ['飞龙'],
-  '轻骑兵': ['马'], '战车兵': ['马'], '森林骑士': ['马'], '荣光骑士': ['马'],
+  '轻骑兵': ['马'], '战车兵': ['马'], '铁甲骑兵': ['马'], '森林骑士': ['马'], '荣光骑士': ['马'],
   '重装骑兵': ['马'], '高阶墓志铭': ['马'], '弓骑士': ['马'], '奥利哈铁骑': ['马'],
   '英勇骑士': ['马'], '瓦尔基里姆': ['马'], '烈骏神将': ['马'], '游唱诗人': ['马'],
   '战象兵': ['战象'],
 };
 const mountStatKeys = { HP: 'hp', 力: 'str', 魔: 'mag', 速: 'spd', 技: 'dex', 防: 'def', 魔防: 'res', 幸: 'lck', 魅: 'cha' };
+const tankMidLevelGrowthBonus = { hp: 10, str: 5, mag: 5, spd: 5, dex: 5, def: 10, res: 0, lck: 0, cha: 5 };
+const tankGrowthBonus = { hp: 10, str: 15, mag: 5, spd: 5, dex: 10, def: 20, res: 5, lck: 5, cha: 10 };
 let characters = [], classes = [], chapterCharacters = {}, mounts = [], selectedMount = null, selected = null, selectedCase = null, level = 1, jobRoute = [], page = 'simulation';
 const $ = id => document.getElementById(id);
 const classMap = new Map();
@@ -327,7 +329,10 @@ function renderGrowth() {
   $('growthTotalCaption').hidden = ['平民', '贵族'].includes(job?.name);
   $('statsGrid').innerHTML = statMeta.map(([key,label]) => {
     const mountGrowthMultiplier = job?.name === '战车兵' ? 2 : 1;
-    const total = (Number(selected.growth?.[key]) || 0) + (Number(job?.growth?.[key]) || 0) + (Number(selectedMount?.growthStats?.[key]) || 0) * mountGrowthMultiplier;
+    const bonus = job?.name === '战车兵'
+      ? level >= 45 ? tankGrowthBonus[key] : level >= 35 ? tankMidLevelGrowthBonus[key] : 0
+      : 0;
+    const total = (Number(selected.growth?.[key]) || 0) + (Number(job?.growth?.[key]) || 0) + bonus + (Number(selectedMount?.growthStats?.[key]) || 0) * mountGrowthMultiplier;
     return `<div class="ability-stat"><span>${label}</span><b>${fmtSigned(total)}%</b></div>`;
   }).join('');
 }
@@ -364,7 +369,10 @@ function expectedStat(key) {
 function growthAt(key, gainedLevel, charGrowth) {
   const active = classAtLevel(gainedLevel);
   const mountGrowthMultiplier = active?.name === '战车兵' ? 2 : 1;
-  return (charGrowth + (Number(active?.growth?.[key]) || 0) + (Number(selectedMount?.growthStats?.[key]) || 0) * mountGrowthMultiplier) / 100;
+  const bonus = active?.name === '战车兵'
+    ? gainedLevel >= 45 ? tankGrowthBonus[key] : gainedLevel >= 35 ? tankMidLevelGrowthBonus[key] : 0
+    : 0;
+  return (charGrowth + (Number(active?.growth?.[key]) || 0) + bonus + (Number(selectedMount?.growthStats?.[key]) || 0) * mountGrowthMultiplier) / 100;
 }
 function classAtLevel(gainedLevel) {
   const event = [...jobRoute].reverse().find(item => item.level < gainedLevel);
